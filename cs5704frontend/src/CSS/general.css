@@ -1,13 +1,27 @@
-.Card{
+.Card {
     border-radius: 10px;
-    background-color: #f6f6f672; 
+    background-color: #f6f6f672;
 }
 
 .full-screen {
-    width: 100%; 
-    height: 100vh; 
-    margin: 0; 
-    padding: 0; 
-    border: none; 
-    background-color: #f6f6f6; 
-  }
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: #f6f6f6;
+}
+
+.sticky-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0px;
+    z-index: 1000;
+}
+
+.sticky-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
