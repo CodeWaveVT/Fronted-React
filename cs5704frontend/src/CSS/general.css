@@ -25,3 +25,11 @@
     bottom: 0;
     width: 100%;
 }
+
+.login-error-message {
+    height: 20px; 
+    display: block;
+    margin-bottom: 3px; 
+    margin-left: 2px; 
+    color: #f593c9;
+}
