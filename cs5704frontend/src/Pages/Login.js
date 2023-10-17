@@ -23,10 +23,42 @@ export default function Login() {
         password: Yup.string().min(8).max(25).required("You must input a password"),
     });
 
-    const handleSubmit = (values) => {
-        // Simulating a successful login
-        navigate('/lib');
+    const handleSubmit = async (values) => {
+        const credentials = {
+            userAccount: values.email,
+            userPassword: values.password,
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/api/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(credentials),
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok) {
+                // 检查 HTTP 状态代码是否指示成功（2xx）,因为后台的状态码不是用的标准版，而是多了两位，如20011，40001，所以需要取前三位
+                const codePrefix = Math.floor(responseData.code / 100); // 计算代码的前三位
+                console.log(codePrefix)
+                if (codePrefix === 200) {
+                    // 如果代码以 200 开头，处理成功的情况
+                    console.log('Request was successful:', responseData);
+                    navigate('/lib');
+                } else {
+                    console.error('Something went wrong:', responseData);
+                }
+            } else {
+                throw new Error(`Bad response from server: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
     };
+
 
     return (
         <Card elevation={3} className='Card' sx={{ width: "450px", height: "380px" }}>
