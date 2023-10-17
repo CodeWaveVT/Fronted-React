@@ -5,9 +5,16 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from "react-router-dom";
 import '../CSS/general.css';
 
 export default function Login() {
+    const navigate = useNavigate();
+
+    const handleLoginClick = () => {
+        navigate('/lib');
+      };
+
     return (
         <Card elevation={3} className='Card' sx={{ width: "450px", height: "350px"}}>
             <div style={{position: "absolute", bottom: "0", right: "0", left: "0"}}>
@@ -24,7 +31,7 @@ export default function Login() {
                     </Box>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" style={{ position: "absolute", right: "10px" }}>Login</Button>
+                    <Button size="small" style={{ position: "absolute", right: "10px" }} onClick={handleLoginClick}>Login</Button>
                     <Button size="small" style={{ marginLeft: "auto", marginRight: "70px" }}>Create Account</Button>
                     <Button size="small" style={{ position: "absolute", left: "10px" }}>Forgot Password?</Button>
                 </CardActions>

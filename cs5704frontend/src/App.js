@@ -7,7 +7,12 @@ function App() {
   return (
     <div className='full-screen'>
       <div className='App'>
-        <Login />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Login/>} />
+            <Route path="/lib" element={<Library/>} />
+          </Routes>
+        </Router>
       </div>
     </div>
   );
