@@ -96,7 +96,7 @@ export default function Login({setAccountTitle}) {
                             <CardContent>
                                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                     <div className="login-error-message">
-                                        {touched.email && errors.email && errors.email}
+                                        {touched.email && errors.email}
                                     </div>
                                     <Field
                                         as={TextField}
@@ -107,7 +107,7 @@ export default function Login({setAccountTitle}) {
                                     />
 
                                     <div className="login-error-message">
-                                        {touched.password && errors.password && errors.password}
+                                        {touched.password && errors.password}
                                     </div>
                                     <Field
                                         as={TextField}

@@ -22,11 +22,14 @@ export default function CreateResetAccount({ title }) {
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email format').required("You must input an email"),
-        password: Yup.string().min(8).max(25).required("You must input a password"),
+        password: Yup.string()
+            .min(8, "Password must be at least 8 characters long")
+            .max(25, "Password must be at most 8 characters long")
+            .required("You must input a password"),
         passwordConfirmed: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
             .required('Confirm password is required'),
-        verificationCode: Yup.string().required("You must input the verification code"),
+        confirmation: Yup.string().required("You must input the verification code"),
     });
 
     const handleSubmit = (values) => {
@@ -57,7 +60,7 @@ export default function CreateResetAccount({ title }) {
                             <CardContent>
                                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                     <div className="login-error-message">
-                                        {touched.email && errors.email && errors.email}
+                                        {touched.email && errors.email}
                                     </div>
                                     <Field
                                         as={TextField}
@@ -68,7 +71,7 @@ export default function CreateResetAccount({ title }) {
                                     />
 
                                     <div className="login-error-message">
-                                        {touched.password && errors.password && errors.password}
+                                        {touched.password && errors.password}
                                     </div>
                                     <Field
                                         as={TextField}
@@ -76,42 +79,44 @@ export default function CreateResetAccount({ title }) {
                                         name="password"
                                         type="password"
                                         fullWidth
+                                        aria-hidden="true"
                                         style={{ marginBottom: "10px" }}
                                     />
 
                                     <div className="login-error-message">
-                                        {touched.PasswordConfirmed && errors.PasswordConfirmed && errors.PasswordConfirmed}
+                                        {touched.passwordConfirmed && errors.passwordConfirmed}
                                     </div>
                                     <Field
                                         as={TextField}
                                         label='confirm the password'
-                                        name="PasswordConfirmed"
-                                        type="PasswordConfirmed"
+                                        name="passwordConfirmed"
+                                        type="password"
                                         fullWidth
+                                        aria-hidden="true"
                                         style={{ marginBottom: "10px" }}
                                     />
 
                                     <div className="login-error-message">
-                                        {touched.confirmation && errors.confirmation && errors.confirmation}
+                                        {touched.confirmation && errors.confirmation}
                                     </div>
                                     <Field
                                         as={TextField}
                                         label='email confirmation'
                                         name="confirmation"
-                                        type="confirmation"
+                                        type="text"
                                         fullWidth
                                     />
                                 </Box>
                             </CardContent>
 
                             <CardActions>
-                                <Button type="submit" size="small" style={{marginLeft: "8px", marginBottom: "5px"}}>
+                                <Button type="submit" size="small" style={{ marginLeft: "8px", marginBottom: "5px" }}>
                                     Send confirmation code
                                 </Button>
-                                <Button size="small" onClick = {() => {navigate('/');}} style={{marginLeft: "40px", marginBottom: "5px"}}>
+                                <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "40px", marginBottom: "5px" }}>
                                     back
                                 </Button>
-                                <Button size="small" style={{marginLeft: "5px", marginBottom: "5px"}}>
+                                <Button size="small" style={{ marginLeft: "5px", marginBottom: "5px" }}>
                                     Create Account
                                 </Button>
                             </CardActions>
