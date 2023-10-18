@@ -17,7 +17,7 @@ export default function CreateResetAccount({ title }) {
         email: "",
         password: "",
         passwordConfirmed: "",
-        verificationCode: "",
+        confirmation: "",
     };
 
     const validationSchema = Yup.object().shape({
@@ -29,12 +29,15 @@ export default function CreateResetAccount({ title }) {
         passwordConfirmed: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
             .required('Confirm password is required'),
-        confirmation: Yup.string().required("You must input the verification code"),
+        confirmation: Yup.string().required("You must input the confirmation code"),
     });
 
-    const handleSubmit = (values) => {
-        // Simulating a successful login
-        navigate('/lib');
+    const handleSetUpAccount = (values) => {
+        navigate('/');
+    };
+
+    const handleSendConfirmationCode = (values) => {
+        
     };
 
     return (
@@ -43,7 +46,7 @@ export default function CreateResetAccount({ title }) {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
+                    onSubmit={handleSetUpAccount}
                 >
                     {({ errors, touched }) => (
                         <Form>
@@ -110,22 +113,25 @@ export default function CreateResetAccount({ title }) {
                             </CardContent>
 
                             <CardActions>
-                                <Button type="submit" size="small" style={{ marginLeft: "8px", marginBottom: "5px" }}>
+                                <Button size="small" onClick={handleSendConfirmationCode} style={{ marginLeft: "8px", marginBottom: "5px" }}>
                                     Send confirmation code
                                 </Button>
                                 {title === "Create Account" ?
                                     <>
-                                        <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "40px", marginBottom: "5px" }}>
+                                        <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "37px", marginBottom: "5px" }}>
                                             back
                                         </Button>
-                                        <Button size="small" style={{ marginLeft: "5px", marginBottom: "5px" }}>
+                                        <Button size="small" type="submit" style={{ marginLeft: "5px", marginBottom: "5px" }}>
                                             Create Account
                                         </Button>
                                     </>
                                     :
                                     <>
-                                        <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "168px", marginBottom: "5px" }}>
+                                        <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "100px", marginBottom: "5px" }}>
                                             back
+                                        </Button>
+                                        <Button size="small" type="submit" style={{ marginLeft: "5px", marginBottom: "5px" }}>
+                                            Reset
                                         </Button>
                                     </>
                                 }
