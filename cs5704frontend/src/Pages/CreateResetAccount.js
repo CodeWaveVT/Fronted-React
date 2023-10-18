@@ -77,7 +77,7 @@ export default function CreateResetAccount({ title }) {
                             }}>{title}</p>
 
                             <CardContent>
-                                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', marginBottom: "10px" }}>
                                     <div className="login-error-message">
                                         {(touched.email  || sendCodeClicked) && errors.email}
                                     </div>
