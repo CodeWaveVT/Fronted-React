@@ -19,15 +19,6 @@ export default function Login({ setAccountTitle }) {
         password: "",
     };
 
-    const [values, setValues] = useState(initialValues);
-
-    const handleUpdateValue = (fieldName, fieldValue) => {
-        setValues((prevValues) => ({
-            ...prevValues,
-            [fieldName]: fieldValue,
-        }));
-    };
-
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email format').required("You must input an email"),
         password: Yup.string()
@@ -46,7 +37,7 @@ export default function Login({ setAccountTitle }) {
         navigate('/setUpAccount');
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (values) => {
         const credentials = {
             userAccount: values.email,
             userPassword: values.password,
@@ -91,7 +82,7 @@ export default function Login({ setAccountTitle }) {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
+                    onSubmit={(Formik) => handleSubmit}
                 >
                     {({ errors, touched }) => (
                         <Form>
@@ -112,8 +103,6 @@ export default function Login({ setAccountTitle }) {
                                         label='Email Address'
                                         name="email"
                                         fullWidth
-                                        value={values.email}
-                                        onChange={(e) => handleUpdateValue("email", e.target.value)}
                                     />
                                     <div className="login-error-message">
                                         {touched.email && errors.email}
@@ -125,8 +114,6 @@ export default function Login({ setAccountTitle }) {
                                         name="password"
                                         type="password"
                                         fullWidth
-                                        value={values.password}
-                                        onChange={(e) => handleUpdateValue("password", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{marginBottom: "10px" }}>
                                         {touched.password && errors.password}
