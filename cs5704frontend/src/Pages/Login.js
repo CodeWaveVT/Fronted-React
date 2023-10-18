@@ -43,8 +43,6 @@ export default function Login({ setAccountTitle }) {
             userPassword: values.password,
         };
 
-        console.log(values.email);
-        console.log(values.password);
         try {
             const response = await fetch('http://localhost:8080/api/user/login', {
                 method: 'POST',
