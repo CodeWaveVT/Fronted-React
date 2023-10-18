@@ -113,12 +113,22 @@ export default function CreateResetAccount({ title }) {
                                 <Button type="submit" size="small" style={{ marginLeft: "8px", marginBottom: "5px" }}>
                                     Send confirmation code
                                 </Button>
-                                <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "40px", marginBottom: "5px" }}>
-                                    back
-                                </Button>
-                                <Button size="small" style={{ marginLeft: "5px", marginBottom: "5px" }}>
-                                    Create Account
-                                </Button>
+                                {title === "Create Account" ?
+                                    <>
+                                        <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "40px", marginBottom: "5px" }}>
+                                            back
+                                        </Button>
+                                        <Button size="small" style={{ marginLeft: "5px", marginBottom: "5px" }}>
+                                            Create Account
+                                        </Button>
+                                    </>
+                                    :
+                                    <>
+                                        <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "168px", marginBottom: "5px" }}>
+                                            back
+                                        </Button>
+                                    </>
+                                }
                             </CardActions>
                         </Form>
                     )}
