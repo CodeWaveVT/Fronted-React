@@ -8,16 +8,25 @@ import TextField from '@mui/material/TextField';
 import { useNavigate } from "react-router-dom";
 import '../CSS/general.css';
 import * as Yup from "yup";
+import { useState } from 'react';
 import { Formik, Form, Field } from "formik";
 
 export default function CreateResetAccount({ title }) {
     const navigate = useNavigate();
+    const [sendCodeClicked, setSendCodeClicked] = useState(false);
 
     const initialValues = {
         email: "",
         password: "",
         passwordConfirmed: "",
         confirmation: "",
+    };
+
+    const [value, setValue] = useState(initialValues);
+
+    const handleUpdateValue = (index, data) => {
+        value[index] = data;
+        setValue(value);
     };
 
     const validationSchema = Yup.object().shape({
@@ -36,8 +45,13 @@ export default function CreateResetAccount({ title }) {
         navigate('/');
     };
 
-    const handleSendConfirmationCode = (values) => {
-        
+    const handleClickSendConfirmationCode = (validateForm) => {
+        setSendCodeClicked(true);
+        validateForm().then((errors) => {
+            if (!errors.email) {
+                // Handle sending the code here, if there's no error.
+            }
+        });
     };
 
     return (
@@ -48,7 +62,7 @@ export default function CreateResetAccount({ title }) {
                     validationSchema={validationSchema}
                     onSubmit={handleSetUpAccount}
                 >
-                    {({ errors, touched }) => (
+                    {({ errors, touched, validateForm }) => (
                         <Form>
                             <p style={{
                                 textAlign: "center",
@@ -63,7 +77,7 @@ export default function CreateResetAccount({ title }) {
                             <CardContent>
                                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                     <div className="login-error-message">
-                                        {touched.email && errors.email}
+                                        {(touched.email  || sendCodeClicked) && errors.email}
                                     </div>
                                     <Field
                                         as={TextField}
@@ -113,7 +127,7 @@ export default function CreateResetAccount({ title }) {
                             </CardContent>
 
                             <CardActions>
-                                <Button size="small" onClick={handleSendConfirmationCode} style={{ marginLeft: "8px", marginBottom: "5px" }}>
+                                <Button size="small" onClick={() => handleClickSendConfirmationCode(validateForm)} style={{ marginLeft: "8px", marginBottom: "5px" }}>
                                     Send confirmation code
                                 </Button>
                                 {title === "Create Account" ?
@@ -143,4 +157,3 @@ export default function CreateResetAccount({ title }) {
         </Card>
     );
 }
-
