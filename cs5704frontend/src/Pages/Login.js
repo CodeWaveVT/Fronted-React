@@ -11,7 +11,7 @@ import '../CSS/general.css';
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 
-export default function Login({setAccountTitle}) {
+export default function Login({ setAccountTitle }) {
     const navigate = useNavigate();
 
     const initialValues = {
@@ -59,11 +59,11 @@ export default function Login({setAccountTitle}) {
                     // 如果代码以 200 开头，处理成功的情况
                     console.log('Request was successful:', responseData);
                     navigate('/lib');
-                } 
+                }
                 else {
                     console.error('Something went wrong:', responseData);
                 }
-            } 
+            }
             else {
                 throw new Error(`Bad response from server: ${response.status}`);
             }
@@ -85,7 +85,7 @@ export default function Login({setAccountTitle}) {
                         <Form>
                             <p style={{
                                 textAlign: "center",
-                                marginBottom: "0px",
+                                marginBottom: "15px",
                                 fontSize: "50px",
                                 fontWeight: "bold",
                                 fontFamily: "Roboto",
@@ -93,41 +93,39 @@ export default function Login({setAccountTitle}) {
                                 color: "#738dd7"
                             }}>Welcome</p>
 
-                            <CardContent>
+                            <CardContent  style={{paddingBottom: '0px'}}>
                                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                    <div className="login-error-message">
-                                        {touched.email && errors.email}
-                                    </div>
                                     <Field
                                         as={TextField}
                                         label='Email Address'
                                         name="email"
                                         fullWidth
-                                        style={{ marginBottom: "25px" }}
                                     />
-
                                     <div className="login-error-message">
-                                        {touched.password && errors.password}
+                                        {touched.email && errors.email}
                                     </div>
+
                                     <Field
                                         as={TextField}
                                         label='Password'
                                         name="password"
                                         type="password"
                                         fullWidth
-                                        style={{ marginBottom: "10px" }}
                                     />
+                                    <div className="login-error-message" style={{marginBottom: "10px" }}>
+                                        {touched.password && errors.password}
+                                    </div>
                                 </Box>
                             </CardContent>
 
                             <CardActions>
-                                <Button onClick = {handleResetAccount} size="small" style={{ marginLeft: "8px", marginBottom: "5px" }}>
+                                <Button onClick={handleResetAccount} size="small" style={{ marginLeft: "8px", marginBottom: "5px" }}>
                                     Forgot Password?
                                 </Button>
-                                <Button onClick = {handleCreateAccount} size="small" style={{ marginLeft: "80px", marginBottom: "5px" }}>
+                                <Button onClick={handleCreateAccount} size="small" style={{ marginLeft: "80px", marginBottom: "5px" }}>
                                     Create Account
                                 </Button>
-                                <Button type="submit" size="small" style={{  marginLeft: "5px", marginBottom: "5px" }}>  
+                                <Button type="submit" size="small" style={{ marginLeft: "5px", marginBottom: "5px" }}>
                                     Login
                                 </Button>
                             </CardActions>
