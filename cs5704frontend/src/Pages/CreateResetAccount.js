@@ -32,13 +32,63 @@ export default function CreateResetAccount({ title }) {
         confirmation: Yup.string().required("You must input the confirmation code"),
     });
 
-    const handleSetUpAccount = (values) => {
-        navigate('/');
+    const handleSetUpAccount = async (values) => {
+
+        const userData = {
+            userAccount: values.email, // 用户输入的邮箱作为用户名
+            userPassword: values.password, // 用户密码
+            checkPassword: values.passwordConfirmed, // 确认密码
+            validateCode: values.confirmation, // 用户输入的验证码
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/api/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(userData),
+            });
+
+            if (response.ok) {
+                console.log('Account set up successfully');
+                navigate('/');
+            } else {
+                const errorData = await response.json();
+                throw new Error(`Server responded with ${response.status}: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error('Failed to set up account:', error);
+        }
     };
 
-    const handleSendConfirmationCode = (values) => {
-        
+
+    const handleSendConfirmationCode = async (email) => {
+        if (!email) {
+            console.error('Email is required');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/user/code?email=${encodeURIComponent(email)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include', // 确保 cookies 跨域发送
+            });
+
+            if (response.ok) {
+                console.log('Confirmation code sent successfully');
+            } else {
+                throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error('Failed to send the confirmation code:', error);
+        }
     };
+
 
     return (
         <Card elevation={3} className='Card' sx={{ width: "450px", height: "550px" }}>
@@ -48,7 +98,7 @@ export default function CreateResetAccount({ title }) {
                     validationSchema={validationSchema}
                     onSubmit={handleSetUpAccount}
                 >
-                    {({ errors, touched }) => (
+                    {({ errors, touched,values }) => (
                         <Form>
                             <p style={{
                                 textAlign: "center",
@@ -113,7 +163,11 @@ export default function CreateResetAccount({ title }) {
                             </CardContent>
 
                             <CardActions>
-                                <Button size="small" onClick={handleSendConfirmationCode} style={{ marginLeft: "8px", marginBottom: "5px" }}>
+                                <Button
+                                    size="small"
+                                    onClick={() => handleSendConfirmationCode(values.email)}
+                                    style={{ marginLeft: "8px", marginBottom: "5px" }}
+                                >
                                     Send confirmation code
                                 </Button>
                                 {title === "Create Account" ?
