@@ -24,9 +24,11 @@ export default function CreateResetAccount({ title }) {
 
     const [value, setValue] = useState(initialValues);
 
-    const handleUpdateValue = (index, data) => {
-        value[index] = data;
-        setValue(value);
+    const handleUpdateValue = (fieldName, fieldValue) => {
+        setValue((prevValues) => ({
+            ...prevValues,
+            [fieldName]: fieldValue,
+        }));
     };
 
     const validationSchema = Yup.object().shape({
@@ -41,7 +43,7 @@ export default function CreateResetAccount({ title }) {
         confirmation: Yup.string().required("You must input the confirmation code"),
     });
 
-    const handleSetUpAccount = (values) => {
+    const handleSetUpAccount = () => {
         navigate('/');
     };
 
@@ -85,6 +87,7 @@ export default function CreateResetAccount({ title }) {
                                         name="email"
                                         fullWidth
                                         style={{ marginBottom: "25px" }}
+                                        onChange={(e) => handleUpdateValue("email", e.target.value)}
                                     />
 
                                     <div className="login-error-message">
@@ -98,6 +101,7 @@ export default function CreateResetAccount({ title }) {
                                         fullWidth
                                         aria-hidden="true"
                                         style={{ marginBottom: "10px" }}
+                                        onChange={(e) => handleUpdateValue("password", e.target.value)}
                                     />
 
                                     <div className="login-error-message">
@@ -111,6 +115,7 @@ export default function CreateResetAccount({ title }) {
                                         fullWidth
                                         aria-hidden="true"
                                         style={{ marginBottom: "10px" }}
+                                        onChange={(e) => handleUpdateValue("passwordConfirmed", e.target.value)}
                                     />
 
                                     <div className="login-error-message">
@@ -122,6 +127,7 @@ export default function CreateResetAccount({ title }) {
                                         name="confirmation"
                                         type="text"
                                         fullWidth
+                                        onChange={(e) => handleUpdateValue("confirmation", e.target.value)}
                                     />
                                 </Box>
                             </CardContent>
