@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from "react-router-dom";
-import CreateResetAccount from './CreateResetAccount';
 import '../CSS/general.css';
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";

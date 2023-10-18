@@ -22,8 +22,15 @@ export default function CreateResetAccount({ title }) {
         confirmation: "",
     };
 
-    const [value, setValue] = useState(initialValues);
+    const [values, setValues] = useState(initialValues);
 
+    const handleUpdateValue = (fieldName, fieldValue) => {
+        setValues((prevValues) => ({
+            ...prevValues,
+            [fieldName]: fieldValue,
+        }));
+    };
+    
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email format').required("You must input an email"),
         password: Yup.string()
@@ -36,7 +43,7 @@ export default function CreateResetAccount({ title }) {
         confirmation: Yup.string().required("You must input the confirmation code"),
     });
 
-    const handleSetUpAccount = async (values) => {
+    const handleSetUpAccount = async () => {
 
         const userData = {
             userAccount: values.email, // 用户输入的邮箱作为用户名
@@ -123,6 +130,7 @@ export default function CreateResetAccount({ title }) {
                                         label='Email Address'
                                         name="email"
                                         fullWidth
+                                        onChange={(e) => handleUpdateValue("email", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{ marginBottom: "15px" }}>
                                         {(touched.email || sendCodeClicked) && errors.email}
@@ -136,6 +144,7 @@ export default function CreateResetAccount({ title }) {
                                         type="password"
                                         fullWidth
                                         aria-hidden="true"
+                                        onChange={(e) => handleUpdateValue("password", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{ marginBottom: "15px" }}>
                                         {touched.password && errors.password}
@@ -149,6 +158,7 @@ export default function CreateResetAccount({ title }) {
                                         type="password"
                                         fullWidth
                                         aria-hidden="true"
+                                        onChange={(e) => handleUpdateValue("passwordConfirmed", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{ marginBottom: "15px" }}>
                                         {touched.passwordConfirmed && errors.passwordConfirmed}
@@ -160,6 +170,7 @@ export default function CreateResetAccount({ title }) {
                                         name="confirmation"
                                         type="text"
                                         fullWidth
+                                        onChange={(e) => handleUpdateValue("confirmation", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{ marginBottom: "10px" }}>
                                         {touched.confirmation && errors.confirmation}
