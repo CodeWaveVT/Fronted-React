@@ -86,7 +86,7 @@ export default function CreateResetAccount({ title }) {
                                         label='Email Address'
                                         name="email"
                                         fullWidth
-                                        style={{ marginBottom: "25px" }}
+                                        style={{ marginBottom: "10px" }}
                                         onChange={(e) => handleUpdateValue("email", e.target.value)}
                                     />
 
