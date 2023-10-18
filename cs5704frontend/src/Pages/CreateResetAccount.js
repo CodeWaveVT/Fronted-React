@@ -30,7 +30,7 @@ export default function CreateResetAccount({ title }) {
             [fieldName]: fieldValue,
         }));
     };
-    
+
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email format').required("You must input an email"),
         password: Yup.string()
@@ -111,11 +111,11 @@ export default function CreateResetAccount({ title }) {
                     validationSchema={validationSchema}
                     onSubmit={handleSetUpAccount}
                 >
-                    {({ errors, touched, values, validateForm }) => (
+                    {({ errors, touched, validateForm }) => (
                         <Form>
                             <p style={{
                                 textAlign: "center",
-                                marginBottom: "15px",
+                                marginBottom: "20px",
                                 fontSize: "50px",
                                 fontWeight: "bold",
                                 fontFamily: "Roboto",
@@ -130,6 +130,7 @@ export default function CreateResetAccount({ title }) {
                                         label='Email Address'
                                         name="email"
                                         fullWidth
+                                        value={values.email}
                                         onChange={(e) => handleUpdateValue("email", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{ marginBottom: "15px" }}>
@@ -144,6 +145,7 @@ export default function CreateResetAccount({ title }) {
                                         type="password"
                                         fullWidth
                                         aria-hidden="true"
+                                        value={values.password}
                                         onChange={(e) => handleUpdateValue("password", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{ marginBottom: "15px" }}>
@@ -158,6 +160,7 @@ export default function CreateResetAccount({ title }) {
                                         type="password"
                                         fullWidth
                                         aria-hidden="true"
+                                        value={values.passwordConfirmed}
                                         onChange={(e) => handleUpdateValue("passwordConfirmed", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{ marginBottom: "15px" }}>
@@ -170,6 +173,7 @@ export default function CreateResetAccount({ title }) {
                                         name="confirmation"
                                         type="text"
                                         fullWidth
+                                        value={values.confirmation}
                                         onChange={(e) => handleUpdateValue("confirmation", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{ marginBottom: "10px" }}>

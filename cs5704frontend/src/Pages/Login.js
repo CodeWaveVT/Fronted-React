@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import { useNavigate } from "react-router-dom";
 import '../CSS/general.css';
 import * as Yup from "yup";
+import { useState } from 'react';
 import { Formik, Form, Field } from "formik";
 
 export default function Login({ setAccountTitle }) {
@@ -18,22 +19,34 @@ export default function Login({ setAccountTitle }) {
         password: "",
     };
 
+    const [values, setValues] = useState(initialValues);
+
+    const handleUpdateValue = (fieldName, fieldValue) => {
+        setValues((prevValues) => ({
+            ...prevValues,
+            [fieldName]: fieldValue,
+        }));
+    };
+
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email format').required("You must input an email"),
-        password: Yup.string().min(8).max(25).required("You must input a password"),
+        password: Yup.string()
+            .min(8, "Password must be at least 8 characters long")
+            .max(25, "Password must be at most 8 characters long")
+            .required("You must input a password"),
     });
 
-    const handleCreateAccount = (values) => {
+    const handleCreateAccount = () => {
         setAccountTitle("Create Account");
         navigate('/setUpAccount');
     }
 
-    const handleResetAccount = (values) => {
+    const handleResetAccount = () => {
         setAccountTitle("Reset Password");
         navigate('/setUpAccount');
     }
 
-    const handleSubmit = async (values) => {
+    const handleSubmit = async () => {
         const credentials = {
             userAccount: values.email,
             userPassword: values.password,
@@ -84,7 +97,7 @@ export default function Login({ setAccountTitle }) {
                         <Form>
                             <p style={{
                                 textAlign: "center",
-                                marginBottom: "15px",
+                                marginBottom: "20px",
                                 fontSize: "50px",
                                 fontWeight: "bold",
                                 fontFamily: "Roboto",
@@ -99,6 +112,8 @@ export default function Login({ setAccountTitle }) {
                                         label='Email Address'
                                         name="email"
                                         fullWidth
+                                        value={values.email}
+                                        onChange={(e) => handleUpdateValue("email", e.target.value)}
                                     />
                                     <div className="login-error-message">
                                         {touched.email && errors.email}
@@ -110,6 +125,8 @@ export default function Login({ setAccountTitle }) {
                                         name="password"
                                         type="password"
                                         fullWidth
+                                        value={values.password}
+                                        onChange={(e) => handleUpdateValue("password", e.target.value)}
                                     />
                                     <div className="login-error-message" style={{marginBottom: "10px" }}>
                                         {touched.password && errors.password}
