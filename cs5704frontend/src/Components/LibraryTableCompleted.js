@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import ConfirmDelete from './ConfirmDelete';
 
 export default function LibraryTableCompleted({ showCompleted, setShowCompleted }) {
   const initialData = [
@@ -38,11 +39,19 @@ export default function LibraryTableCompleted({ showCompleted, setShowCompleted 
   const [data, setData] = useState(initialData);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [idToBeDeleted, setIdTobeDelete] = useState(-1);
 
   const handleDelete = (id) => {
-    const updatedData = data.filter(row => row.id !== id);
-    setData(updatedData);
+    setIdTobeDelete(id);
+    setOpenConfirmDelete(true);
   };
+
+  const handleConfirmDeleteClose = (confirm) => {
+    setOpenConfirmDelete(false);
+    if(idToBeDeleted !== -1 && confirm)
+      setData(data.filter(row => row.id !== idToBeDeleted));
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -75,6 +84,11 @@ export default function LibraryTableCompleted({ showCompleted, setShowCompleted 
       {/* <button onClick={() => handleAdd({id: "25", name: 'Book 25', author: 'Author 2', dateAdded: '2023-01-02' })}>
         Add Book
       </button> */}
+      <ConfirmDelete 
+        open={openConfirmDelete} 
+        handleClose = {handleConfirmDeleteClose}
+        style={{zIndex: '12'}}
+      />
       <Table >
         <TableHead>
           <TableRow style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
