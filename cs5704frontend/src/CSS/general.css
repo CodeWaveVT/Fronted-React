@@ -34,3 +34,11 @@
     margin-left: 2px; 
     color: #f593c9;
 }
+
+.libraryTable {
+    display: flex;
+    justify-content: center; 
+    width: 100%; 
+    padding-top: 80px; 
+}
+

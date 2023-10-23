@@ -31,6 +31,11 @@ export default function CreateBook({ open, handleClose }) {
         AIModel: Yup.string().required("You must input the valid ai model"),
     });
 
+    const handleDiaClose = () => {
+        setFile(null);
+        handleClose();
+    }
+
     const onSubmit = (values, actions) => {
         console.log(values);
 
@@ -40,6 +45,7 @@ export default function CreateBook({ open, handleClose }) {
                 case 'application/epub+zip':
                 case 'application/pdf':
                     handleClose();
+                    setFile(null);
                     break;
                 default:
                     alert('Please upload a valid file type (.txt, .epub, or .pdf)');
@@ -49,14 +55,14 @@ export default function CreateBook({ open, handleClose }) {
         else {
             alert("Please upload a file");
         }
+        setFile(null);
     };
-
 
     return (
         <div>
-            <Dialog open={open}>
-                <DialogTitle>Create Book</DialogTitle>
-                <DialogContent>
+            <Dialog open={open} >
+                <DialogTitle >Create Book</DialogTitle>
+                <DialogContent style = {{paddingBottom: "0px"}}>
                     <DialogContentText>
                         To create a new audiobook, please fill the following blanks
                     </DialogContentText>
@@ -66,7 +72,7 @@ export default function CreateBook({ open, handleClose }) {
                         validationSchema={validationSchema}
                         onSubmit={onSubmit}
                     >
-                        {({ errors, touched }) => (
+                        {({ errors, touched, submitCount }) => (
                             <Form>
                                 <Field as={TextField}
                                     autoFocus
@@ -78,21 +84,19 @@ export default function CreateBook({ open, handleClose }) {
                                     variant="standard"
                                 />
                                 <div className="login-error-message" style={{ marginBottom: "0px" }}>
-                                    {errors.bookName && touched.bookName && errors.bookName}
+                                    {errors.bookName && touched.bookName && submitCount > 0 && errors.bookName}
                                 </div>
                                 <Field as={TextField}
                                     autoFocus
-                                    margin="dense"
+                                    marginTop="0px"
                                     id="authorName"
                                     name="authorName"
                                     label="author"
                                     fullWidth
                                     variant="standard"
-                                //error={errors.authorName && touched.authorName}
-                                //helperText={errors.authorName && touched.authorName && errors.authorName}
                                 />
                                 <div className="login-error-message" style={{ marginBottom: "0px" }}>
-                                    {errors.authorName && touched.authorName && errors.authorName}
+                                    {errors.authorName && touched.authorName && submitCount > 0 && errors.authorName}
                                 </div>
                                 <Box sx={{ minWidth: 120 }} style={{ marginTop: "20px" }}>
                                     <FormControl fullWidth>
@@ -116,9 +120,8 @@ export default function CreateBook({ open, handleClose }) {
                                 <div style={{ marginTop: "20px" }}>
                                     <input onChange={(e) => { setFile(e.target.files[0]) }} type='file' />
                                 </div>
-
-                                <DialogActions style={{ marginRight: '10px' }}>
-                                    <Button type="button" onClick={handleClose}>Cancel</Button>
+                                <DialogActions style={{ marginRight: '0px' }}>
+                                    <Button type="button" onClick={handleDiaClose}>Cancel</Button>
                                     <Button type="submit">Upload</Button>
                                 </DialogActions>
                             </Form>
