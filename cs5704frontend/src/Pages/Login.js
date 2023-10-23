@@ -84,7 +84,7 @@ export default function Login({ setAccountTitle }) {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({ errors, touched }) => (
+                    {({ errors, touched, submitCount }) => (
                         <Form>
                             <p style={{
                                 textAlign: "center",
@@ -105,7 +105,7 @@ export default function Login({ setAccountTitle }) {
                                         fullWidth
                                     />
                                     <div className="login-error-message">
-                                        {touched.email && errors.email}
+                                        {submitCount > 0 && touched.email && errors.email}
                                     </div>
 
                                     <Field
@@ -116,7 +116,7 @@ export default function Login({ setAccountTitle }) {
                                         fullWidth
                                     />
                                     <div className="login-error-message" style={{marginBottom: "10px" }}>
-                                        {touched.password && errors.password}
+                                        {submitCount > 0 && touched.password && errors.password}
                                     </div>
                                 </Box>
                             </CardContent>
