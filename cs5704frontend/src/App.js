@@ -11,14 +11,14 @@ function App() {
   return (
     <div className='full-screen'>
       <div className='App'>
-        <Router>
+        {/* <Router>
           <Routes>
             <Route path="/" element={<Login setAccountTitle={setAccountTitle}/>} />
             <Route path="/lib" element={<Library/>} />
             <Route path="/setUpAccount" element={<CreateResetAccount title={accountTitle}/>} />
           </Routes>
-        </Router>
-        {/* <Library/> */}
+        </Router> */}
+        <Library/>
       </div>
     </div>
   );

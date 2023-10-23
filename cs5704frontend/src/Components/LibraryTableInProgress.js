@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableRow, Button, TableFooter, TablePagination, Box } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -9,9 +7,9 @@ import InputLabel from '@mui/material/InputLabel';
 
 export default function LibraryTableInProgress({ showCompleted, setShowCompleted }) {
   const initialData = [
-    { id: 1, bookName: 'Book 1', author: 'Author 1', dateAdded: '2023-01-01', status: 'in progress' },
-    { id: 2, bookName: 'Book 2', author: 'Author 2', dateAdded: '2023-01-02', status: 'in queue' },
-    { id: 3, bookName: 'Book 3', author: 'Author 3', dateAdded: '2023-01-03', status: 'failed' },
+    { id: 1, book: { id: '1', name: 'Book 1', author: 'Author 1', dateAdded: '2023-01-01', status: 'in progress' } },
+    { id: 2, book: { id: '2', name: 'Book 2', author: 'Author 2', dateAdded: '2023-01-02', status: 'in queue' } },
+    { id: 3, book: { id: '3', name: 'Book 3', author: 'Author 2', dateAdded: '2023-01-02', status: 'failed' } },
   ];
 
   const [data, setData] = useState(initialData);
@@ -36,6 +34,19 @@ export default function LibraryTableInProgress({ showCompleted, setShowCompleted
     setPage(0);
   };
 
+  const handleAdd = (bookData) => {
+    const newId = data.length + 1;
+    const bookEntry = {
+      id: newId,
+      book: {
+        id: bookData.id,
+        ...bookData
+      }
+    };
+
+    setData(prevData => [...prevData, bookEntry]);
+  };
+
   return (
     <div style={{ width: '100%', overflowX: 'hidden' }}>
       <Table >
@@ -52,10 +63,10 @@ export default function LibraryTableInProgress({ showCompleted, setShowCompleted
         <Table style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           <TableBody style={{ width: '100%' }}>
             {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-              <TableRow key={row.id} style={{ display: 'flex', width: '100%' }}>
-                <TableCell style={{ flex: 1, textAlign: "center" }}>{row.bookName}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center" }}>{row.author}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center" }}>{row.dateAdded}</TableCell>
+              <TableRow key={row.id} style={{ display: 'flex', width: '100%', alignItems: "center" }}>
+                <TableCell style={{ flex: 1, textAlign: "center" }}>{row.book.name}</TableCell>
+                <TableCell style={{ flex: 1, textAlign: "center" }}>{row.book.author}</TableCell>
+                <TableCell style={{ flex: 1, textAlign: "center" }}>{row.book.dateAdded}</TableCell>
                 <TableCell style={{ flex: 1, textAlign: "center" }}>
                   <Button
                     variant="contained"
@@ -63,12 +74,12 @@ export default function LibraryTableInProgress({ showCompleted, setShowCompleted
                     disabled
                     style={{
                       width: '12vw',
-                      backgroundColor: row.status === 'in progress' ? '#63C40A' :
-                        row.status === 'in queue' ? 'orange' : '#FA5858',
+                      backgroundColor: row.book.status === 'in progress' ? '#63C40A' :
+                        row.book.status === 'in queue' ? 'orange' : '#FA5858',
                       color: 'black'
                     }}
                   >
-                    {row.status.charAt(0).toUpperCase() + row.status.slice(1)}
+                    {row.book.status.charAt(0).toUpperCase() + row.book.status.slice(1)}
                   </Button>
                 </TableCell>
               </TableRow>
@@ -104,7 +115,7 @@ export default function LibraryTableInProgress({ showCompleted, setShowCompleted
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-                style={{ marginRight: '1vw' }} // Adjust this as needed
+                style={{ marginRight: '1vw' }}
               />
 
             </div>
