@@ -7,9 +7,9 @@ import InputLabel from '@mui/material/InputLabel';
 
 export default function LibraryTableInProgress({ showCompleted, setShowCompleted }) {
   const initialData = [
-    { id: 1, book: { id: '1', name: 'Book 1', author: 'Author 1', dateAdded: '2023-01-01', status: 'in progress' } },
-    { id: 2, book: { id: '2', name: 'Book 2', author: 'Author 2', dateAdded: '2023-01-02', status: 'in queue' } },
-    { id: 3, book: { id: '3', name: 'Book 3', author: 'Author 2', dateAdded: '2023-01-02', status: 'failed' } },
+    { id: 1, book: { id: '1', name: 'Book 1', author: 'Author 1', dateAdded: '01/01/23', status: 'processing' } },
+    { id: 2, book: { id: '2', name: 'Book 2', author: 'Author 2', dateAdded: '01/01/23', status: 'in queue' } },
+    { id: 3, book: { id: '3', name: 'Book 3', author: 'Author 2', dateAdded: '01/01/23', status: 'failed' } },
   ];
 
   const [data, setData] = useState(initialData);
@@ -63,18 +63,18 @@ export default function LibraryTableInProgress({ showCompleted, setShowCompleted
         <Table style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           <TableBody style={{ width: '100%' }}>
             {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-              <TableRow key={row.id} style={{ display: 'flex', width: '100%', alignItems: "center" }}>
-                <TableCell style={{ flex: 1, textAlign: "center" }}>{row.book.name}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center" }}>{row.book.author}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center" }}>{row.book.dateAdded}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center" }}>
+              <TableRow key={row.id} style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+                <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px"}}>{row.book.name}</TableCell>
+                <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px"}}>{row.book.author}</TableCell>
+                <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px"}}>{row.book.dateAdded}</TableCell>
+                <TableCell style={{ flex: 1, textAlign: "center", padding: "11.5px 16px 11.5px 16px"}}>
                   <Button
                     variant="contained"
                     disableElevation
                     disabled
                     style={{
                       width: '12vw',
-                      backgroundColor: row.book.status === 'in progress' ? '#63C40A' :
+                      backgroundColor: row.book.status === 'processing' ? '#63C40A' :
                         row.book.status === 'in queue' ? 'orange' : '#FA5858',
                       color: 'black'
                     }}
