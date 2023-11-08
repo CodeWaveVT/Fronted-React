@@ -7,6 +7,19 @@ import '../CSS/general.css';
 
 const Library = () => {
     const [showCompleted, setShowCompleted] = useState(true);
+    const completedBook = [];
+    const processingBook = [];
+
+
+    const handleFetchData = (value) => {
+        // if(value === true){
+        //     LibraryTableCompleted.
+        // }
+        // else{
+
+        // }
+    }
+
 
     return (
         <div className='full-screen'>

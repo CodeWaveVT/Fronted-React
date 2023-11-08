@@ -9,32 +9,65 @@ import InputLabel from '@mui/material/InputLabel';
 import ConfirmDelete from './ConfirmDelete';
 
 export default function LibraryTableCompleted({ showCompleted, setShowCompleted }) {
-  const initialData = [
-    { id: 1, book: { id: '1', name: 'Book 1', author: 'Author 1', dateAdded: '01/01/23' } },
-    { id: 2, book: { id: '2', name: 'Book 2', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 3, book: { id: '3', name: 'Book 3', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 4, book: { id: '4', name: 'Book 4', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 5, book: { id: '5', name: 'Book 5', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 6, book: { id: '6', name: 'Book 6', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 7, book: { id: '7', name: 'Book 7', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 8, book: { id: '8', name: 'Book 8', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 9, book: { id: '9', name: 'Book 9', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 10, book: { id: '10', name: 'Book 10', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 11, book: { id: '11', name: 'Book 11', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 12, book: { id: '12', name: 'Book 12', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 13, book: { id: '13', name: 'Book 13', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 14, book: { id: '14', name: 'Book 14', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 15, book: { id: '15', name: 'Book 15', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 16, book: { id: '16', name: 'Book 16', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 17, book: { id: '17', name: 'Book 17', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 18, book: { id: '18', name: 'Book 18', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 19, book: { id: '19', name: 'Book 19', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 20, book: { id: '20', name: 'Book 20', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 21, book: { id: '21', name: 'Book 21', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 22, book: { id: '22', name: 'Book 22', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 23, book: { id: '23', name: 'Book 23', author: 'Author 2', dateAdded: '01/01/23' } },
-    { id: 24, book: { id: '24', name: 'Book 24', author: 'Author 2', dateAdded: '01/01/23' } },
-  ];
+  const initialData = [];
+  
+  const getCompletedBooks = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/api/task/list/test/completed', {
+            method: 'POST',
+            body: '',
+        });
+
+        const responseData = await response.json();
+
+        if (response.ok) {
+            // 检查 HTTP 状态代码是否指示成功（2xx）,因为后台的状态码不是用的标准版，而是多了两位，如20011，40001，所以需要取前三位
+            const codePrefix = Math.floor(responseData.code / 100); // 计算代码的前三位
+            console.log(codePrefix)
+            if (codePrefix === 200) {
+                // 如果代码以 200 开头，处理成功的情况
+                console.log('Request was successful:', responseData);
+                initialData = responseData;
+            }
+            else {
+                console.error('Something went wrong:', responseData);
+            }
+        }
+        else {
+            throw new Error(`Bad response from server: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
+
+
+  // const initialData = [
+  //   { id: 1, book: { id: '1', name: 'Book 1', author: 'Author 1', dateAdded: '01/01/23' } },
+  //   { id: 2, book: { id: '2', name: 'Book 2', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 3, book: { id: '3', name: 'Book 3', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 4, book: { id: '4', name: 'Book 4', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 5, book: { id: '5', name: 'Book 5', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 6, book: { id: '6', name: 'Book 6', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 7, book: { id: '7', name: 'Book 7', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 8, book: { id: '8', name: 'Book 8', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 9, book: { id: '9', name: 'Book 9', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 10, book: { id: '10', name: 'Book 10', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 11, book: { id: '11', name: 'Book 11', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 12, book: { id: '12', name: 'Book 12', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 13, book: { id: '13', name: 'Book 13', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 14, book: { id: '14', name: 'Book 14', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 15, book: { id: '15', name: 'Book 15', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 16, book: { id: '16', name: 'Book 16', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 17, book: { id: '17', name: 'Book 17', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 18, book: { id: '18', name: 'Book 18', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 19, book: { id: '19', name: 'Book 19', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 20, book: { id: '20', name: 'Book 20', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 21, book: { id: '21', name: 'Book 21', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 22, book: { id: '22', name: 'Book 22', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 23, book: { id: '23', name: 'Book 23', author: 'Author 2', dateAdded: '01/01/23' } },
+  //   { id: 24, book: { id: '24', name: 'Book 24', author: 'Author 2', dateAdded: '01/01/23' } },
+  // ];
 
   const [data, setData] = useState(initialData);
   const [page, setPage] = useState(0);

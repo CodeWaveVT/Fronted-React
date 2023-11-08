@@ -14,10 +14,12 @@ import Select from '@mui/material/Select';
 import { useState } from 'react';
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateBook({ open, handleClose }) {
     const [AIModel, setAIModel] = React.useState('Jack');
     const [file, setFile] = useState(null);
+    const navigate = useNavigate();
 
     const initialValues = {
         bookName: "",
@@ -36,20 +38,65 @@ export default function CreateBook({ open, handleClose }) {
         handleClose();
     }
 
+    const submitToBackend = async (bookType) => {
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('bookType', bookType);
+        formData.append('bookName', initialValues.bookName);
+        formData.append('bookAuthor', initialValues.authorName);
+
+        try {
+            const response = await fetch('http://localhost:8080/api/task/gen/async', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok) {
+                // 检查 HTTP 状态代码是否指示成功（2xx）,因为后台的状态码不是用的标准版，而是多了两位，如20011，40001，所以需要取前三位
+                const codePrefix = Math.floor(responseData.code / 100); // 计算代码的前三位
+                console.log(codePrefix)
+                if (codePrefix === 200) {
+                    // 如果代码以 200 开头，处理成功的情况
+                    console.log('Request was successful:', responseData);
+                }
+                else {
+                    console.error('Something went wrong:', responseData);
+                }
+            }
+            else {
+                throw new Error(`Bad response from server: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    }
+
     const onSubmit = (values, actions) => {
         console.log(values);
 
         if (file) {
+            let bookType = "";
             switch (file.type) {
                 case 'text/plain':
+                    bookType = 'txt';
+                    break;
                 case 'application/epub+zip':
+                    bookType = 'epub';
+                    break;
                 case 'application/pdf':
-                    handleClose();
-                    setFile(null);
+                    bookType = 'pdf';
                     break;
                 default:
                     alert('Please upload a valid file type (.txt, .epub, or .pdf)');
                     break;
+            }
+            if (bookType !== ""){
+                submitToBackend(bookType);
+                handleClose();
+                setFile(null);
             }
         } 
         else {
@@ -60,7 +107,7 @@ export default function CreateBook({ open, handleClose }) {
 
     return (
         <div>
-            <Dialog open={open} >
+            <Dialog open={open}>
                 <DialogTitle >Create Book</DialogTitle>
                 <DialogContent style = {{paddingBottom: "0px"}}>
                     <DialogContentText>
