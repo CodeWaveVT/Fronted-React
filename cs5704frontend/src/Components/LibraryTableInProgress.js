@@ -4,9 +4,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import { v4 as uuidv4 } from 'uuid';
 
 const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, ref) => {
-  
+
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -30,25 +31,27 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
   };
 
   const handleAdd = (bookData) => {
-    const newId = data.length + 1;
     const bookEntry = {
-      id: newId,
-      book: {
-        id: bookData.id,
-        ...bookData
-      }
+      id: uuidv4(),
+      book: bookData,
     };
 
-    setData(prevData => [...prevData, bookEntry]);
-  };
+    const exists = data.some(entry => entry.book.id === bookData.id);
 
+    if (!exists) {
+      setData(prevData => [...prevData, bookEntry]);
+    }
+  };
 
   const getProcessingBooks = async () => {
     console.log("getting processing book");
     try {
       const response = await fetch('http://localhost:8080/api/task/list/test/processing', {
         method: 'POST',
-        body: '',
+        // headers: {
+        //   'Content-Type': 'application/json', // Set the Content-Type header
+        // },
+        body: JSON.stringify({}), // Use JSON.stringify to send an empty JSON object
       });
 
       const responseData = await response.json();
@@ -60,7 +63,25 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
         if (codePrefix === 200) {
           // 如果代码以 200 开头，处理成功的情况
           console.log('Request was successful:', responseData);
-          //setCompletedBook[responseData];
+
+          for (let i = 0; i < responseData.data.length; i++) {
+            const item = responseData.data[i];
+            //console.log(item.bookUrl);
+            //console.log(i);
+            const dataItem = {
+              id: item.taskId,
+              name: item.bookName,
+              author: item.author,
+              dateAdded: item.createTime,
+              url: item.bookUrl,
+              status: item.status
+            };
+
+            if(dataItem.status !== "success"){
+              handleAdd(dataItem);
+            }
+          }
+
         }
         else {
           console.error('Something went wrong:', responseData);
@@ -107,8 +128,8 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
                     disabled
                     style={{
                       width: '12vw',
-                      backgroundColor: row.book.status === 'processing' ? '#63C40A' :
-                        row.book.status === 'in queue' ? 'orange' : '#FA5858',
+                      backgroundColor: row.book.status === 'running' ? '#63C40A' :
+                        row.book.status === 'waiting' ? 'orange' : '#FA5858',
                       color: 'black'
                     }}
                   >
@@ -124,10 +145,10 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
       <Table style={{ position: 'fixed', bottom: 0, left: 0, right: 0, backgroundColor: '#f6f6f6', zIndex: 10 }}>
         <TableFooter >
           <TableRow >
-            <TableCell>
+            <TableCell style={{ padding: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '95%', marginBottom: '3vh', marginTop: '3vh' }}>
 
-                <FormControl style={{ width: "150px" }}>
+                <FormControl style={{ width: "130px" }}>
                   <InputLabel id="select-table">Status</InputLabel>
                   <Select
                     labelId="select-table"
