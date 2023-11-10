@@ -31,16 +31,17 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
   };
 
   const handleAdd = (bookData) => {
-    const bookEntry = {
-      id: uuidv4(),
-      book: bookData,
-    };
-
-    const exists = data.some(entry => entry.book.id === bookData.id);
-
-    if (!exists) {
-      setData(prevData => [...prevData, bookEntry]);
-    }
+    setData(prevData => {
+      
+      const exists = prevData.some(entry => entry.book.id === bookData.id);
+  
+      if (!exists) {
+        return [...prevData, { id: uuidv4(), book: bookData }];
+      } 
+      else {
+        return prevData;
+      }
+    });
   };
 
   const getProcessingBooks = async () => {

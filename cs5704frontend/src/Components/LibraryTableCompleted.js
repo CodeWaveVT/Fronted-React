@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useState, useImperativeHandle, forwardRef, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableRow, Button, TableFooter, TablePagination, Box } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -92,21 +92,25 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
   }
 
   const handleAdd = (bookData) => {
-    const bookEntry = {
-      id: uuidv4(),
-      book: bookData,
-    };
-
-    let exists = data.some(entry => entry.book.id === bookData.id);
-
-    if (!exists) {
-      setData(prevData => [...prevData, bookEntry]);
-    }
+    setData(prevData => {
+      const exists = prevData.some(entry => entry.book.id === bookData.id);
+  
+      if (!exists) {
+        return [...prevData, { id: uuidv4(), book: bookData }];
+      } 
+      else {
+        return prevData;
+      }
+    });
   };
+
+  useEffect(() => {
+    console.log(data); 
+  }, [data]); 
 
   const handlePlay = (bookUrl) => {
     console.log(bookUrl);
-    window.open(bookUrl, '_blank', 'width=600,height=200');
+    window.open(bookUrl, '_blank', 'width=600, height=200');
   }
 
   useImperativeHandle(ref, () => ({
