@@ -97,7 +97,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
       book: bookData,
     };
 
-    const exists = data.some(entry => entry.book.id === bookData.id);
+    let exists = data.some(entry => entry.book.id === bookData.id);
 
     if (!exists) {
       setData(prevData => [...prevData, bookEntry]);
@@ -178,6 +178,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
                     value={showCompleted}
                     label="Age"
                     onChange={handleTableChange}
+                    onClick={getCompletedBooks}
                   >
                     <MenuItem value={true}>Completed</MenuItem>
                     <MenuItem value={false}>In Progress</MenuItem>

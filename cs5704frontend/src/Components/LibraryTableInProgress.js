@@ -156,6 +156,7 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
                     value={showCompleted}
                     label="Age"
                     onChange={handleTableChange}
+                    onClick={getProcessingBooks}
                   >
                     <MenuItem value={true}>Completed</MenuItem>
                     <MenuItem value={false}>In Progress</MenuItem>
