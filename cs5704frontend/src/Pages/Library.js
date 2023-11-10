@@ -1,25 +1,34 @@
-import React, { useState } from 'react';
 import LibraryTableCompleted from '../Components/LibraryTableCompleted';
 import LibraryTableInProgress from '../Components/LibraryTableInProgress';
 import NavigationBar from '../Components/NavigationBar';
-import { Button } from '@mui/material';  // Importing the Material-UI Button component
+import React, { useState, useEffect, useRef  } from 'react';
 import '../CSS/general.css';
 
 const Library = () => {
     const [showCompleted, setShowCompleted] = useState(true);
-    const completedBook = [];
-    const processingBook = [];
 
+    const completedTableRef = useRef();
+    const processingTableRef = useRef();
 
-    const handleFetchData = (value) => {
-        // if(value === true){
-        //     LibraryTableCompleted.
-        // }
-        // else{
-
-        // }
+    const handleGetCompletedBook = () => {
+        if (completedTableRef.current) {
+            completedTableRef.current.childFunction();
+        }
+    }
+    const handleGetProcessingBook = () => {
+        if (processingTableRef.current) {
+            processingTableRef.current.childFunction();
+        }
     }
 
+    useEffect(() => {
+        if (showCompleted) {
+            handleGetCompletedBook();
+        }
+        else if (!showCompleted){
+            handleGetProcessingBook();
+        }
+    }, [showCompleted]);
 
     return (
         <div className='full-screen'>
@@ -27,13 +36,15 @@ const Library = () => {
                 <NavigationBar />
             </div>
             <div className='libraryTable'>
-                {showCompleted ? 
+                {showCompleted ?
                     <LibraryTableCompleted 
+                        ref = {completedTableRef}
                         showCompleted={showCompleted}
                         setShowCompleted={setShowCompleted}
-                    /> 
-                    : 
+                    />
+                    :
                     <LibraryTableInProgress 
+                        ref = {processingTableRef}
                         showCompleted={showCompleted}
                         setShowCompleted={setShowCompleted}
                     />}

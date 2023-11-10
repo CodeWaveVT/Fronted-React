@@ -19,7 +19,8 @@ import { useNavigate } from "react-router-dom";
 export default function CreateBook({ open, handleClose }) {
     const [AIModel, setAIModel] = React.useState('Jack');
     const [file, setFile] = useState(null);
-    const navigate = useNavigate();
+    const [bookName, setBookName] = useState("");
+    const [bookAuthor, setBookAuthor] = useState("");
 
     const initialValues = {
         bookName: "",
@@ -38,14 +39,13 @@ export default function CreateBook({ open, handleClose }) {
         handleClose();
     }
 
-    const submitToBackend = async (bookType) => {
+    const submitToBackend = async (bookType, bookName, bookAuthor) => {
 
         const formData = new FormData();
         formData.append('file', file);
         formData.append('bookType', bookType);
-        formData.append('bookName', initialValues.bookName);
-        formData.append('bookAuthor', initialValues.authorName);
-
+        formData.append('bookName', bookName);
+        formData.append('bookAuthor', bookAuthor);
         try {
             const response = await fetch('http://localhost:8080/api/task/gen/async', {
                 method: 'POST',
@@ -76,7 +76,6 @@ export default function CreateBook({ open, handleClose }) {
 
     const onSubmit = (values, actions) => {
         console.log(values);
-
         if (file) {
             let bookType = "";
             switch (file.type) {
@@ -94,7 +93,7 @@ export default function CreateBook({ open, handleClose }) {
                     break;
             }
             if (bookType !== ""){
-                submitToBackend(bookType);
+                submitToBackend(bookType, values.bookName, values.authorName);
                 handleClose();
                 setFile(null);
             }
