@@ -1,11 +1,15 @@
+import React, { useState, useEffect, useRef } from 'react';
 import LibraryTableCompleted from '../Components/LibraryTableCompleted';
 import LibraryTableInProgress from '../Components/LibraryTableInProgress';
 import NavigationBar from '../Components/NavigationBar';
-import React, { useState, useEffect, useRef } from 'react';
 import '../CSS/general.css';
 
 const Library = () => {
-    const [showCompleted, setShowCompleted] = useState(true);
+    // Initialize showCompleted state from localStorage
+    const [showCompleted, setShowCompleted] = useState(() => {
+        const saved = localStorage.getItem('showCompleted');
+        return saved !== null ? JSON.parse(saved) : true;
+    });
 
     const completedTableRef = useRef();
     const processingTableRef = useRef();
@@ -14,20 +18,22 @@ const Library = () => {
         if (completedTableRef.current) {
             completedTableRef.current.childFunction();
         }
-    }
+    };
+
     const handleGetProcessingBook = () => {
         if (processingTableRef.current) {
             processingTableRef.current.childFunction();
         }
-    }
+    };
 
     useEffect(() => {
         if (showCompleted) {
             handleGetCompletedBook();
-        }
-        else if (!showCompleted) {
+        } else {
             handleGetProcessingBook();
         }
+
+        localStorage.setItem('showCompleted', JSON.stringify(showCompleted));
     }, [showCompleted]);
 
     return (
@@ -55,4 +61,5 @@ const Library = () => {
 }
 
 export default Library;
+
 

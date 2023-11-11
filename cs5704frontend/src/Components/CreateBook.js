@@ -15,7 +15,6 @@ import { useState } from 'react';
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import SnackBar from './SnackBar';
-import { useNavigate } from "react-router-dom";
 
 export default function CreateBook({ open, handleClose }) {
     const [AIModel, setAIModel] = React.useState('OpenAI');

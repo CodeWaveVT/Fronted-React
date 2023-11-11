@@ -94,7 +94,7 @@ export default function Login({ setAccountTitle }) {
                 barOpen={snackBarOpen}
                 setBarOpen={setSnackBarOpen}
                 alertType={snackNum}
-                hideDuration={3000}
+                hideDuration={2500}
             />
             <Card elevation={3} className='Card' sx={{ width: "450px", height: "380px" }}>
                 <div style={{ position: "absolute", bottom: "0", right: "0", left: "0" }}>

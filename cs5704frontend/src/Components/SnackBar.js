@@ -66,10 +66,10 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
         open={barOpen}
         autoHideDuration={hideDuration}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: '' }} // Corrected typo here
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} // Corrected typo here
         style={{ marginBottom: '1.5vh' }}
       >
-        <Alert onClose={handleClose} severity={color} sx={{ width: '50%'}}>
+        <Alert onClose={handleClose} severity={color} sx={{ width: '100%'}}>
           {alert}
         </Alert>
       </Snackbar>
