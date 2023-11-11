@@ -110,7 +110,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
 
   const handlePlay = (bookUrl) => {
     console.log(bookUrl);
-    window.open(bookUrl, '_blank', 'width=600, height=200');
+    window.open(bookUrl, '_blank', 'width=350, height=180');
   }
 
   useImperativeHandle(ref, () => ({

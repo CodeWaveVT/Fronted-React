@@ -5,11 +5,17 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import CreateBook from './CreateBook';
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import SnackBar from './SnackBar';
 
 export default function NavigationBar() {
   const navigate = useNavigate();
-
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  function sleep(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+  }
 
   const handleClickOpen = () => {
     setDialogOpen(true);
@@ -36,6 +42,8 @@ export default function NavigationBar() {
         if (codePrefix === 200) {
           // 如果代码以 200 开头，处理成功的情况
           console.log('Logout was successful:', responseData);
+          setSnackBarOpen(true);
+          await sleep(400);
           navigate('/');
         }
         else {
@@ -51,19 +59,26 @@ export default function NavigationBar() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <div style={{ position: 'fixed', right: "1vw" }}>
-            <Button color="inherit" style={{ marginRight: "1vw" }} onClick={handleClickOpen} >Create</Button>
-            <Button color="inherit" onClick={handleLogout}>Log Out</Button>
-            <CreateBook
-              handleClose={handleClose}
-              open={dialogOpen}
-            />
-          </div>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <>
+      <SnackBar
+        barOpen={snackBarOpen}
+        setBarOpen={setSnackBarOpen}
+        alertType={3}
+      />
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <div style={{ position: 'fixed', right: "1vw" }}>
+              <Button color="inherit" style={{ marginRight: "1vw" }} onClick={handleClickOpen} >Create</Button>
+              <Button color="inherit" onClick={handleLogout}>Log Out</Button>
+              <CreateBook
+                handleClose={handleClose}
+                open={dialogOpen}
+              />
+            </div>
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </>
   );
 }

@@ -10,9 +10,12 @@ import '../CSS/general.css';
 import * as Yup from "yup";
 import { useState } from 'react';
 import { Formik, Form, Field } from "formik";
+import SnackBar from '../Components/SnackBar';
 
 export default function Login({ setAccountTitle }) {
     const navigate = useNavigate();
+    const [snackBarOpen, setSnackBarOpen] = useState(false);
+    const [snackNum, setSnackNum] = useState(1);
 
     const initialValues = {
         email: "",
@@ -35,6 +38,10 @@ export default function Login({ setAccountTitle }) {
     const handleResetAccount = () => {
         setAccountTitle("Reset Password");
         navigate('/setUpAccount');
+    }
+
+    function sleep(milliseconds) {
+        return new Promise(resolve => setTimeout(resolve, milliseconds));
     }
 
     const handleSubmit = async (values) => {
@@ -61,10 +68,15 @@ export default function Login({ setAccountTitle }) {
                 if (codePrefix === 200) {
                     // 如果代码以 200 开头，处理成功的情况
                     console.log('Request was successful:', responseData);
+                    setSnackNum(2);
+                    setSnackBarOpen(true);
+                    await sleep(500);
                     navigate('/lib');
                 }
                 else {
                     console.error('Something went wrong:', responseData);
+                    setSnackNum(1);
+                    setSnackBarOpen(true);
                 }
             }
             else {
@@ -77,66 +89,74 @@ export default function Login({ setAccountTitle }) {
 
 
     return (
-        <Card elevation={3} className='Card' sx={{ width: "450px", height: "380px" }}>
-            <div style={{ position: "absolute", bottom: "0", right: "0", left: "0" }}>
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
-                >
-                    {({ errors, touched, submitCount }) => (
-                        <Form>
-                            <p style={{
-                                textAlign: "center",
-                                marginBottom: "20px",
-                                fontSize: "50px",
-                                fontWeight: "bold",
-                                fontFamily: "Roboto",
-                                textShadow: "4px 4px #5a8eda",
-                                color: "#738dd7"
-                            }}>Welcome</p>
+        <>
+            <SnackBar
+                barOpen={snackBarOpen}
+                setBarOpen={setSnackBarOpen}
+                alertType={snackNum}
+                hideDuration={3000}
+            />
+            <Card elevation={3} className='Card' sx={{ width: "450px", height: "380px" }}>
+                <div style={{ position: "absolute", bottom: "0", right: "0", left: "0" }}>
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={validationSchema}
+                        onSubmit={handleSubmit}
+                    >
+                        {({ errors, touched, submitCount }) => (
+                            <Form>
+                                <p style={{
+                                    textAlign: "center",
+                                    marginBottom: "20px",
+                                    fontSize: "50px",
+                                    fontWeight: "bold",
+                                    fontFamily: "Roboto",
+                                    textShadow: "4px 4px #5a8eda",
+                                    color: "#738dd7"
+                                }}>Welcome</p>
 
-                            <CardContent  style={{paddingBottom: '0px'}}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                    <Field
-                                        as={TextField}
-                                        label='Email Address'
-                                        name="email"
-                                        fullWidth
-                                    />
-                                    <div className="login-error-message">
-                                        {submitCount > 0 && touched.email && errors.email}
-                                    </div>
+                                <CardContent style={{ paddingBottom: '0px' }}>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                        <Field
+                                            as={TextField}
+                                            label='Email Address'
+                                            name="email"
+                                            fullWidth
+                                        />
+                                        <div className="login-error-message">
+                                            {submitCount > 0 && touched.email && errors.email}
+                                        </div>
 
-                                    <Field
-                                        as={TextField}
-                                        label='Password'
-                                        name="password"
-                                        type="password"
-                                        fullWidth
-                                    />
-                                    <div className="login-error-message" style={{marginBottom: "10px" }}>
-                                        {submitCount > 0 && touched.password && errors.password}
-                                    </div>
-                                </Box>
-                            </CardContent>
+                                        <Field
+                                            as={TextField}
+                                            label='Password'
+                                            name="password"
+                                            type="password"
+                                            fullWidth
+                                        />
+                                        <div className="login-error-message" style={{ marginBottom: "10px" }}>
+                                            {submitCount > 0 && touched.password && errors.password}
+                                        </div>
+                                    </Box>
+                                </CardContent>
 
-                            <CardActions>
-                                <Button onClick={handleResetAccount} size="small" style={{ marginLeft: "8px", marginBottom: "5px" }}>
-                                    Forgot Password?
-                                </Button>
-                                <Button onClick={handleCreateAccount} size="small" style={{ marginLeft: "80px", marginBottom: "5px" }}>
-                                    Create Account
-                                </Button>
-                                <Button type="submit" size="small" style={{ marginLeft: "5px", marginBottom: "5px" }}>
-                                    Login
-                                </Button>
-                            </CardActions>
-                        </Form>
-                    )}
-                </Formik>
-            </div>
-        </Card>
+                                <CardActions>
+                                    <Button onClick={handleResetAccount} size="small" style={{ marginLeft: "8px", marginBottom: "5px" }}>
+                                        Forgot Password?
+                                    </Button>
+                                    <Button onClick={handleCreateAccount} size="small" style={{ marginLeft: "80px", marginBottom: "5px" }}>
+                                        Create Account
+                                    </Button>
+                                    <Button type="submit" size="small" style={{ marginLeft: "5px", marginBottom: "5px" }}>
+                                        Login
+                                    </Button>
+                                </CardActions>
+                            </Form>
+                        )}
+                    </Formik>
+                </div>
+            </Card>
+        </>
     );
 }
 

@@ -18,14 +18,14 @@ import SnackBar from './SnackBar';
 import { useNavigate } from "react-router-dom";
 
 export default function CreateBook({ open, handleClose }) {
-    const [AIModel, setAIModel] = React.useState('Jack');
+    const [AIModel, setAIModel] = React.useState('OpenAI');
     const [file, setFile] = useState(null);
     const [snackBarOpen, setSnackBarOpen] = useState(false);
 
     const initialValues = {
         bookName: "",
         authorName: "",
-        AIModel: "Jack",
+        AIModel: "OpenAI",
     };
 
     const validationSchema = Yup.object().shape({
@@ -112,6 +112,8 @@ export default function CreateBook({ open, handleClose }) {
             <SnackBar 
                 barOpen = {snackBarOpen}
                 setBarOpen = {setSnackBarOpen}
+                alertType = {0}
+                hideDuration={7000}
             />
             <Dialog open={open}>
                 <DialogTitle >Create Book</DialogTitle>
@@ -164,9 +166,8 @@ export default function CreateBook({ open, handleClose }) {
                                                 setAIModel(e.target.value);
                                             }}
                                         >
-                                            <MenuItem value={"Jack"}>Jack</MenuItem>
-                                            <MenuItem value={"Mark"}>Mark</MenuItem>
-                                            <MenuItem value={"Marry"}>Marry</MenuItem>
+                                            <MenuItem value={"Xunfei"}>Xunfei</MenuItem>
+                                            <MenuItem value={"OpenAI"}>OpenAI</MenuItem>
                                         </Field>
                                     </FormControl>
                                 </Box>

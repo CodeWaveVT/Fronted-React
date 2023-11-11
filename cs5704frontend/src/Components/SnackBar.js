@@ -7,7 +7,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function SnackBar({ barOpen, setBarOpen }) {
+export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration }) {
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -17,17 +17,60 @@ export default function SnackBar({ barOpen, setBarOpen }) {
     setBarOpen(false);
   };
 
+  let alert = "Ebook file successfully uploaded! Please check the progress in the 'IN PROCESS' table";
+  let color = 'success';
+  switch (alertType) {
+    case 0:
+      alert = "Ebook file successfully uploaded! Please check the progress in the 'IN PROCESS' table";
+      color = 'success';
+      break;
+    case 1:
+      alert = "INVALID USER!";
+      color = 'error';
+      break;
+    case 2:
+      alert = "LOGGED IN!";
+      color = 'info';
+      break;
+    case 3:
+      alert = "LOGGED OUT!";
+      color = 'info';
+      break;
+    case 4:
+      alert = "Invalid Email Adress!";
+      color = 'error';
+      break;
+    case 5:
+      alert = "Verfication Code Sent!";
+      color = 'success';
+      break;
+    case 6:
+      alert = "Account set up successfully!";
+      color = 'success';
+      break;
+    case 7:
+      alert = "Failed to set up account!";
+      color = 'error';
+      break;
+    default:
+      break;
+  }
+
+  if (hideDuration === 0) {
+    hideDuration = 4500;
+  }
+
   return (
-    <Stack spacing={5} sx={{ width: '100%'}}>
-      <Snackbar 
-        open={barOpen} 
-        autoHideDuration={7000} 
+    <Stack spacing={2} sx={{ width: '100%'}}>
+      <Snackbar
+        open={barOpen}
+        autoHideDuration={hideDuration}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'botton', horizontal: 'center' }} // Centering the Snackbar
-        style = {{marginBottom: '2vh'}}
+        anchorOrigin={{ vertical: 'bottom', horizontal: '' }} // Corrected typo here
+        style={{ marginBottom: '1.5vh' }}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Ebook file successfully uploaded! Please check the progress in the "In Process" table
+        <Alert onClose={handleClose} severity={color} sx={{ width: '50%'}}>
+          {alert}
         </Alert>
       </Snackbar>
     </Stack>
