@@ -14,13 +14,13 @@ import Select from '@mui/material/Select';
 import { useState } from 'react';
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
+import SnackBar from './SnackBar';
 import { useNavigate } from "react-router-dom";
 
 export default function CreateBook({ open, handleClose }) {
     const [AIModel, setAIModel] = React.useState('Jack');
     const [file, setFile] = useState(null);
-    const [bookName, setBookName] = useState("");
-    const [bookAuthor, setBookAuthor] = useState("");
+    const [snackBarOpen, setSnackBarOpen] = useState(false);
 
     const initialValues = {
         bookName: "",
@@ -96,6 +96,7 @@ export default function CreateBook({ open, handleClose }) {
                 submitToBackend(bookType, values.bookName, values.authorName);
                 handleClose();
                 setFile(null);
+                setSnackBarOpen(true);
             }
         } 
         else {
@@ -104,8 +105,14 @@ export default function CreateBook({ open, handleClose }) {
         setFile(null);
     };
 
+
+
     return (
         <div>
+            <SnackBar 
+                barOpen = {snackBarOpen}
+                setBarOpen = {setSnackBarOpen}
+            />
             <Dialog open={open}>
                 <DialogTitle >Create Book</DialogTitle>
                 <DialogContent style = {{paddingBottom: "0px"}}>
