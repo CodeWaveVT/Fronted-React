@@ -1,7 +1,7 @@
 import LibraryTableCompleted from '../Components/LibraryTableCompleted';
 import LibraryTableInProgress from '../Components/LibraryTableInProgress';
 import NavigationBar from '../Components/NavigationBar';
-import React, { useState, useEffect, useRef  } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../CSS/general.css';
 
 const Library = () => {
@@ -25,7 +25,7 @@ const Library = () => {
         if (showCompleted) {
             handleGetCompletedBook();
         }
-        else if (!showCompleted){
+        else if (!showCompleted) {
             handleGetProcessingBook();
         }
     }, [showCompleted]);
@@ -37,17 +37,18 @@ const Library = () => {
             </div>
             <div className='libraryTable'>
                 {showCompleted ?
-                    <LibraryTableCompleted 
-                        ref = {completedTableRef}
+                    <LibraryTableCompleted
+                        ref={completedTableRef}
                         showCompleted={showCompleted}
                         setShowCompleted={setShowCompleted}
                     />
                     :
-                    <LibraryTableInProgress 
-                        ref = {processingTableRef}
+                    <LibraryTableInProgress
+                        ref={processingTableRef}
                         showCompleted={showCompleted}
                         setShowCompleted={setShowCompleted}
-                    />}
+                    />
+                }
             </div>
         </div>
     );
