@@ -49,7 +49,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'success';
       break;
     case 7:
-      alert = "Failed to set up account!";
+      alert = "FAILED TO SET UP ACCOUNT!";
       color = 'error';
       break;
     case 8:
@@ -57,7 +57,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'info';
       break;
     case 9:
-      alert = "Book deleted!";
+      alert = "BOOK DELETED!";
       color = 'error';
       break;
     default:
