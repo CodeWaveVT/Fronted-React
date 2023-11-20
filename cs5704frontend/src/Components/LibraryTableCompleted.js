@@ -192,7 +192,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
           <>
             <div style={{ textAlign: 'center', marginTop: '10vh' }}>
               <img src={emptyImage} alt="No Data" className="responsive-image" />
-              <div style={{ marginTop: '2vh', fontWeight: 'bold', fontSize: '16px', opacity: '0.7' }}>Looks like our bookshelf is on a diet. Feed it some books!</div>
+              <div style={{ marginTop: '2vh', fontWeight: 'bold', fontSize: '16px', opacity: '0.7' }}>Looks like your bookshelf is on a diet. Feed it some books!</div>
             </div>
           </>
         ) : (

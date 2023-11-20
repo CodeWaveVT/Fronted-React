@@ -41,7 +41,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'error';
       break;
     case 5:
-      alert = "Confirmation Code Sent!";
+      alert = "Code Sent!";
       color = 'success';
       break;
     case 6:
@@ -53,7 +53,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'error';
       break;
     case 8:
-      alert = "Submitted request!";
+      alert = "Code requested!";
       color = 'info';
       break;
     case 9:
