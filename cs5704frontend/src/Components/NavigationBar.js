@@ -31,6 +31,7 @@ export default function NavigationBar() {
       const response = await fetch('http://localhost:8080/api/user/logout', {
         method: 'POST',
         body: '',
+        credentials: 'include',
       });
 
       const responseData = await response.json();

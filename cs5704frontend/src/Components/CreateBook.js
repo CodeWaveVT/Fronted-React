@@ -50,6 +50,7 @@ export default function CreateBook({ open, handleClose }) {
             const response = await fetch('/api/task/gen/async', {
                 method: 'POST',
                 body: formData,
+                credentials: 'include',
             });
 
             const responseData = await response.json();

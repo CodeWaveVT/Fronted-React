@@ -58,6 +58,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: encodedBody,
+        credentials: 'include',
       });
 
       const responseData = await response.json();
