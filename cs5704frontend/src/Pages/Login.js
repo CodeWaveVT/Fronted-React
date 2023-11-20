@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { Formik, Form, Field } from "formik";
 import SnackBar from '../Components/SnackBar';
 
-export default function Login({ setAccountTitle }) {
+export default function Login({ setAccountTitle, setLoggedOut }) {
     const navigate = useNavigate();
     const [snackBarOpen, setSnackBarOpen] = useState(false);
     const [snackNum, setSnackNum] = useState(1);
@@ -70,6 +70,7 @@ export default function Login({ setAccountTitle }) {
                     setSnackNum(2);
                     setSnackBarOpen(true);
                     await sleep(500);
+                    setLoggedOut(false)
                     navigate('/lib');
                 }
                 else {

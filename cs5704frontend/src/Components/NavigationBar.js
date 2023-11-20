@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import SnackBar from './SnackBar';
 
-export default function NavigationBar() {
+export default function NavigationBar({setLoggedOut}) {
   const navigate = useNavigate();
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -46,6 +46,7 @@ export default function NavigationBar() {
           setSnackBarOpen(true);
           await sleep(400);
           navigate('/');
+          setLoggedOut(true);
         }
         else {
           console.error('Something went wrong:', responseData);

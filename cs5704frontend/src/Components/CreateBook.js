@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -11,26 +12,24 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useState } from 'react';
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import SnackBar from './SnackBar';
 
 export default function CreateBook({ open, handleClose }) {
-    const [AIModel, setAIModel] = React.useState('openai');
+    const [AIModel, setAIModel] = React.useState('');
     const [file, setFile] = useState(null);
     const [snackBarOpen, setSnackBarOpen] = useState(false);
+    const [aiModels, setAiModels] = useState([]);
 
     const initialValues = {
         bookName: "",
         authorName: "",
-        AIModel: "openai",
     };
 
     const validationSchema = Yup.object().shape({
         bookName: Yup.string().required("You must input the name of the book"),
         authorName: Yup.string().required("You must input the name of the author"),
-        AIModel: Yup.string().required("You must input the valid ai model"),
     });
 
     const handleDiaClose = () => {
@@ -38,14 +37,14 @@ export default function CreateBook({ open, handleClose }) {
         handleClose();
     }
 
-    const submitToBackend = async (bookType, bookName, bookAuthor, modelType) => {
-
+    const submitToBackend = async (bookType, bookName, bookAuthor) => {
+        // console.log("awd");
         const formData = new FormData();
         formData.append('file', file);
         formData.append('bookType', bookType);
         formData.append('bookName', bookName);
         formData.append('bookAuthor', bookAuthor);
-        formData.append('modelType', modelType);
+        formData.append('modelType', AIModel);
         try {
             const response = await fetch('/api/task/gen/async', {
                 method: 'POST',
@@ -75,50 +74,98 @@ export default function CreateBook({ open, handleClose }) {
         }
     }
 
-    const onSubmit = (values, actions) => {
-        console.log(values);
-        if (file) {
-            let bookType = "";
-            switch (file.type) {
-                case 'text/plain':
-                    bookType = 'txt';
-                    break;
-                case 'application/epub+zip':
-                    bookType = 'epub';
-                    break;
-                case 'application/pdf':
-                    bookType = 'pdf';
-                    break;
-                default:
-                    alert('Please upload a valid file type (.txt, .epub, or .pdf)');
-                    break;
+    const getAIModels = async () => {
+        let AIModels;
+        console.log("getting AI Models");
+        try {
+            const response = await fetch('/api/model/list', {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok) {
+                // 检查 HTTP 状态代码是否指示成功（2xx）,因为后台的状态码不是用的标准版，而是多了两位，如20011，40001，所以需要取前三位
+                const codePrefix = Math.floor(responseData.code / 100); // 计算代码的前三位
+                console.log(codePrefix)
+                if (codePrefix === 200) {
+                    // 如果代码以 200 开头，处理成功的情况
+                    console.log('Request was successful:', responseData);
+                    AIModels = responseData.data;
+                    console.log(AIModels);
+                    setAiModels(AIModels);
+                    if (AIModels.length > 0) {
+                        setAIModel(AIModels[0]);
+                    }
+                }
+                else {
+                    console.error('Something went wrong:', responseData);
+                }
             }
-            if (bookType !== ""){
-                submitToBackend(bookType, values.bookName, values.authorName, values.AIModel);
-                handleClose();
-                setFile(null);
-                setSnackBarOpen(true);
+            else {
+                throw new Error(`Bad response from server: ${response.status}`);
             }
-        } 
-        else {
-            alert("Please upload a file");
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
         }
+    }
+
+    useEffect(() => {
+        if (open) {
+            getAIModels();
+        }
+    }, [open]);
+
+    const onSubmit = (values, actions) => {
+        console.log('Selected File:', file);
+        
+        if (!file) {
+            alert("Please upload a file");
+            return;
+        }
+        if (!AIModel) {
+            alert("Please select a AI Model for the book");
+            return;
+        }
+
+        let bookType = "";
+        switch (file.type) {
+            case 'text/plain':
+                bookType = 'txt';
+                break;
+            case 'application/epub+zip':
+                bookType = 'epub';
+                break;
+            case 'application/pdf':
+                bookType = 'pdf';
+                break;
+            default:
+                alert('Please upload a valid file type (.txt, .epub, or .pdf)');
+                break;
+        }
+
+        if (bookType !== "") {
+            submitToBackend(bookType, values.bookName, values.authorName);
+            handleClose();
+            setFile(null);
+            setSnackBarOpen(true);
+        }
+
         setFile(null);
     };
 
-
-
     return (
         <div>
-            <SnackBar 
-                barOpen = {snackBarOpen}
-                setBarOpen = {setSnackBarOpen}
-                alertType = {0}
+            <SnackBar
+                barOpen={snackBarOpen}
+                setBarOpen={setSnackBarOpen}
+                alertType={0}
                 hideDuration={7000}
             />
             <Dialog open={open}>
                 <DialogTitle >Create Book</DialogTitle>
-                <DialogContent style = {{paddingBottom: "0px"}}>
+                <DialogContent style={{ paddingBottom: "0px" }}>
                     <DialogContentText>
                         To create a new audiobook, please fill the following blanks
                     </DialogContentText>
@@ -144,7 +191,6 @@ export default function CreateBook({ open, handleClose }) {
                                 </div>
                                 <Field as={TextField}
                                     autoFocus
-                                    marginTop="0px"
                                     id="authorName"
                                     name="authorName"
                                     label="author"
@@ -167,8 +213,9 @@ export default function CreateBook({ open, handleClose }) {
                                                 setAIModel(e.target.value);
                                             }}
                                         >
-                                            <MenuItem value={"Xunfei"}>Xunfei</MenuItem>
-                                            <MenuItem value={"openai"}>OpenAI</MenuItem>
+                                            {aiModels.map(model => (
+                                                <MenuItem key={model} value={model}>{model}</MenuItem>
+                                            ))}
                                         </Field>
                                     </FormControl>
                                 </Box>
