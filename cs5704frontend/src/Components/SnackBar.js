@@ -56,6 +56,10 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       alert = "Submitted request!";
       color = 'info';
       break;
+    case 9:
+      alert = "Book deleted!";
+      color = 'error';
+      break;
     default:
       break;
   }
@@ -65,7 +69,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
   }
 
   return (
-    <Stack spacing={2} sx={{ width: '100%'}}>
+    <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar
         open={barOpen}
         autoHideDuration={hideDuration}
@@ -73,7 +77,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} // Corrected typo here
         style={{ marginBottom: '1.5vh' }}
       >
-        <Alert onClose={handleClose} severity={color} sx={{ width: '100%'}}>
+        <Alert onClose={handleClose} severity={color} sx={{ width: '100%' }}>
           {alert}
         </Alert>
       </Snackbar>

@@ -9,6 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import ConfirmDelete from './ConfirmDelete';
 import { v4 as uuidv4 } from 'uuid';
 import emptyImage from '../assets/images/empty_box.png';
+import SnackBar from './SnackBar';
 
 const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, ref) => {
 
@@ -18,6 +19,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [idToBeDeleted, setIdTobeDelete] = useState(-1);
   const [fetched, setFetched] = useState(false);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
 
   const handleDelete = (id) => {
     setIdTobeDelete(id);
@@ -30,8 +32,9 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
       const rowToDelete = data.find(row => row.id === idToBeDeleted);
       if (rowToDelete.book.id) {
         await handleDeleteBook(rowToDelete.book.id);
+        setData(data.filter(row => row.id !== idToBeDeleted));
+        setSnackBarOpen(true);
       }
-      setData(data.filter(row => row.id !== idToBeDeleted));
     }
   }
 
@@ -155,11 +158,6 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
     console.log(data);
   }, [data]);
 
-  const handlePlay = (bookUrl) => {
-    console.log(bookUrl);
-    window.open(bookUrl, '_blank', 'width=350, height=180');
-  }
-
   useImperativeHandle(ref, () => ({
     childFunction() {
       getCompletedBooks();
@@ -168,9 +166,12 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
 
   return (
     <div style={{ width: '100%', overflowX: 'hidden' }}>
-      {/* <button onClick={() => handleAdd({id: "25", name: 'Book 25', author: 'Author 2', dateAdded: '2023-01-02' })}>
-        Add Book
-      </button> */}
+      <SnackBar
+        barOpen={snackBarOpen}
+        setBarOpen={setSnackBarOpen}
+        alertType={9}
+        hideDuration={4000}
+      />
       <ConfirmDelete
         open={openConfirmDelete}
         handleClose={handleConfirmDeleteClose}
@@ -218,12 +219,12 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
                       style={{
                         marginLeft: '0.5vw',
                         padding: 0,
-                        minWidth: '48px', 
-                        height: '48px' 
+                        minWidth: '48px',
+                        height: '48px'
                       }}
                     >
                       <DeleteIcon style={{
-                        fontSize: '1.5rem' 
+                        fontSize: '1.5rem'
                       }} />
                     </Button>
                   </TableCell>
