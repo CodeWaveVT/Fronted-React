@@ -46,6 +46,10 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
     });
   };
 
+  const formatDate = (dateString) => {
+    return dateString.split("T")[0];
+  };
+
   const getProcessingBooks = async () => {
     console.log("getting processing book");
     try {
@@ -76,7 +80,7 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
               id: item.taskId,
               name: item.bookName,
               author: item.author,
-              dateAdded: item.createTime,
+              dateAdded: formatDate(item.createTime),
               url: item.bookUrl,
               status: item.status
             };
@@ -116,7 +120,7 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
             <TableCell style={{ flex: 1, textAlign: "center" }}>Book Name</TableCell>
             <TableCell style={{ flex: 1, textAlign: "center" }}>Author</TableCell>
             <TableCell style={{ flex: 1, textAlign: "center" }}>Date Added</TableCell>
-            <TableCell style={{ flex: 1, textAlign: "center" }}>Status</TableCell>
+            <TableCell style={{ flex: 2, textAlign: "center" }}>Status</TableCell>
           </TableRow>
         </TableHead>
       </Table>
@@ -124,7 +128,7 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
         {data.length === 0 && fetched? (
           <>
             <div style={{ textAlign: 'center', marginTop: '10vh' }}>
-              <img src={emptyImage} alt="No Data" style={{ maxWidth: '100%', height: 'auto', marginTop: '1vh', opacity: '0.7' }} />
+              <img src={emptyImage} alt="No Data" className="responsive-image"/>
               <div style={{ marginTop: '2vh', fontWeight: 'bold', fontSize: '16px', opacity: '0.7'}}>It's quieter than a library in here. Let's get the ball rolling!</div>
             </div>
           </>
@@ -136,7 +140,7 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
                   <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.name}</TableCell>
                   <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.author}</TableCell>
                   <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.dateAdded}</TableCell>
-                  <TableCell style={{ flex: 1, textAlign: "center", padding: "11.5px 16px 11.5px 16px" }}>
+                  <TableCell style={{ flex: 2, textAlign: "center", padding: "20px 16px 20px 16px" }}>
                     <Button
                       variant="contained"
                       disableElevation

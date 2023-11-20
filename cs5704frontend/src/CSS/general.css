@@ -42,3 +42,18 @@
     padding-top: 80px; 
 }
 
+.responsive-image {
+    width: 20%; 
+    height: auto;
+    margin-top: 1vh;
+    opacity: 0.7;
+    max-width: 100%;
+  }
+  
+  @media (min-width: 400px) {
+    .responsive-image {
+      width: 20%; 
+      height: 15%; 
+    }
+  }
+  

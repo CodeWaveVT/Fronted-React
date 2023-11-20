@@ -81,6 +81,10 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
     }
   };
 
+  const formatDate = (dateString) => {
+    return dateString.split("T")[0];
+  };
+
   const getCompletedBooks = async () => {
     console.log("getting completed book");
     try {
@@ -111,7 +115,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
               id: item.taskId,
               name: item.bookName,
               author: item.author,
-              dateAdded: item.createTime,
+              dateAdded: formatDate(item.createTime),
               url: item.bookUrl,
             };
 
@@ -178,42 +182,53 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
             <TableCell style={{ flex: 1, textAlign: "center" }}>Book Name</TableCell>
             <TableCell style={{ flex: 1, textAlign: "center" }}>Author</TableCell>
             <TableCell style={{ flex: 1, textAlign: "center" }}>Date Added</TableCell>
-            <TableCell style={{ flex: 1, textAlign: "center" }}>Actions</TableCell>
+            <TableCell style={{ flex: 2, textAlign: "center" }}>Actions</TableCell>
           </TableRow>
         </TableHead>
       </Table>
       <Box style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-        {data.length === 0 && fetched? (
+        {data.length === 0 && fetched ? (
           <>
-          <div style={{ textAlign: 'center', marginTop: '10vh' }}>
-            <img src={emptyImage} alt="No Data" style={{ maxWidth: '100%', height: 'auto', marginTop: '1vh', opacity: '0.7' }} />
-            <div style={{ marginTop: '2vh', fontWeight: 'bold', fontSize: '16px', opacity: '0.7'}}>Looks like our bookshelf is on a diet. Feed it some books!</div>
-          </div>
-        </>
+            <div style={{ textAlign: 'center', marginTop: '10vh' }}>
+              <img src={emptyImage} alt="No Data" className="responsive-image" />
+              <div style={{ marginTop: '2vh', fontWeight: 'bold', fontSize: '16px', opacity: '0.7' }}>Looks like our bookshelf is on a diet. Feed it some books!</div>
+            </div>
+          </>
         ) : (
           <Table style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <TableBody style={{ width: '100%' }}>
               {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(entry => (
                 <TableRow key={entry.id} style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{entry.book.name}</TableCell>
-                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{entry.book.author}</TableCell>
-                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{entry.book.dateAdded}</TableCell>
-                  <TableCell style={{ flex: 1, textAlign: "center", padding: "11.5px 16px 11.5px 16px" }}>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "30px 16px 30px 16px" }}>{entry.book.name}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "30px 16px 30px 16px" }}>{entry.book.author}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "30px 16px 30px 16px" }}>{entry.book.dateAdded}</TableCell>
+                  <TableCell style={{
+                    flex: 2,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: "13.5px 16px 13.5px 16px"
+                  }}>
+                    <audio controls src={entry.book.url} style={{ maxWidth: '100%' }}>
+                      Your browser does not support the audio element.
+                    </audio>
                     <Button
-                      startIcon={<PlayArrowIcon />}
-                      onClick={() => handlePlay(entry.book.url)}
-                    >
-                      Play
-                    </Button>
-                    <Button
-                      startIcon={<DeleteIcon />}
                       color="secondary"
                       onClick={() => handleDelete(entry.id)}
+                      style={{
+                        marginLeft: '0.5vw',
+                        padding: 0,
+                        minWidth: '48px', 
+                        height: '48px' 
+                      }}
                     >
-                      Delete
+                      <DeleteIcon style={{
+                        fontSize: '1.5rem' 
+                      }} />
                     </Button>
                   </TableCell>
                 </TableRow>
+
               ))}
             </TableBody>
           </Table>
