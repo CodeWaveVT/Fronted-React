@@ -22,9 +22,13 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
     setOpenConfirmDelete(true);
   };
 
-  const handleConfirmDeleteClose = (confirm) => {
+  const handleConfirmDeleteClose = async (confirm) => {
     setOpenConfirmDelete(false);
     if (confirm) {
+      const rowToDelete = data.find(row => row.id === idToBeDeleted);
+      if (rowToDelete.book.id) {
+        await handleDeleteBook(rowToDelete.book.id);
+      }
       setData(data.filter(row => row.id !== idToBeDeleted));
     }
   }
@@ -42,15 +46,48 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
     setPage(0);
   };
 
+  const handleDeleteBook = async (taskId) => {
+    console.log("deleting book with task ID:", taskId);
+    try {
+      const encodedBody = new URLSearchParams();
+      encodedBody.append('taskId', taskId);
+
+      const response = await fetch('/api/task/delete/completed', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: encodedBody,
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        const codePrefix = Math.floor(responseData.code / 100);
+        console.log('Response code prefix:', codePrefix);
+        if (codePrefix === 200) {
+          console.log('Request was successful:', responseData);
+        } else {
+          console.error('Something went wrong:', responseData);
+        }
+      } else {
+        throw new Error(`Bad response from server: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+
   const getCompletedBooks = async () => {
     console.log("getting completed book");
     try {
-      const response = await fetch('http://localhost:8080/api/task/list/test/completed', {
+      const response = await fetch('/api/task/list/completed', {
         method: 'POST',
-        // headers: {
-        //   'Content-Type': 'application/json', // Set the Content-Type header
-        // },
+        headers: {
+          'Content-Type': 'application/json', // Set the Content-Type header
+        },
         body: JSON.stringify({}), // Use JSON.stringify to send an empty JSON object
+        credentials: 'include',
       });
 
       const responseData = await response.json();
@@ -94,10 +131,10 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
   const handleAdd = (bookData) => {
     setData(prevData => {
       const exists = prevData.some(entry => entry.book.id === bookData.id);
-  
+
       if (!exists) {
         return [...prevData, { id: uuidv4(), book: bookData }];
-      } 
+      }
       else {
         return prevData;
       }
@@ -105,8 +142,8 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
   };
 
   useEffect(() => {
-    console.log(data); 
-  }, [data]); 
+    console.log(data);
+  }, [data]);
 
   const handlePlay = (bookUrl) => {
     console.log(bookUrl);

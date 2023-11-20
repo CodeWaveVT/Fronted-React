@@ -47,7 +47,7 @@ export default function CreateBook({ open, handleClose }) {
         formData.append('bookAuthor', bookAuthor);
         formData.append('modelType', modelType);
         try {
-            const response = await fetch('http://localhost:8080/api/task/gen/test/async', {
+            const response = await fetch('/api/task/gen/async', {
                 method: 'POST',
                 body: formData,
             });

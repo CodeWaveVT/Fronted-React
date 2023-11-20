@@ -91,7 +91,7 @@ export default function CreateResetAccount({ title }) {
         setSnackBarOpen(true);
 
         try {
-            const response = await fetch(`http://localhost:8080/api/user/code?email=${encodeURIComponent(email)}`, {
+            const response = await fetch(`/api/user/code?email=${encodeURIComponent(email)}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

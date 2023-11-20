@@ -47,12 +47,13 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
   const getProcessingBooks = async () => {
     console.log("getting processing book");
     try {
-      const response = await fetch('http://localhost:8080/api/task/list/test/processing', {
+      const response = await fetch('/api/task/list/processing', {
         method: 'POST',
         // headers: {
         //   'Content-Type': 'application/json', // Set the Content-Type header
         // },
         body: JSON.stringify({}), // Use JSON.stringify to send an empty JSON object
+        credentials: 'include',
       });
 
       const responseData = await response.json();
