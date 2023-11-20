@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import ConfirmDelete from './ConfirmDelete';
 import { v4 as uuidv4 } from 'uuid';
+import emptyImage from '../assets/images/empty_box.png';
 
 const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, ref) => {
 
@@ -178,32 +179,41 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
         </TableHead>
       </Table>
       <Box style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-        <Table style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-          <TableBody style={{ width: '100%' }}>
-            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(entry => (
-              <TableRow key={entry.id} style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-                <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{entry.book.name}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{entry.book.author}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{entry.book.dateAdded}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center", padding: "11.5px 16px 11.5px 16px" }}>
-                  <Button
-                    startIcon={<PlayArrowIcon />}
-                    onClick={() => handlePlay(entry.book.url)}
-                  >
-                    Play
-                  </Button>
-                  <Button
-                    startIcon={<DeleteIcon />}
-                    color="secondary"
-                    onClick={() => handleDelete(entry.id)}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {data.length === 0 ? (
+          <>
+          <div style={{ textAlign: 'center', marginTop: '10vh' }}>
+            <img src={emptyImage} alt="No Data" style={{ maxWidth: '100%', height: 'auto', marginTop: '1vh', opacity: '0.7' }} />
+            <div style={{ marginTop: '2vh', fontWeight: 'bold', fontSize: '16px', opacity: '0.7'}}>Looks like our bookshelf is on a diet. Feed it some books!</div>
+          </div>
+        </>
+        ) : (
+          <Table style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+            <TableBody style={{ width: '100%' }}>
+              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(entry => (
+                <TableRow key={entry.id} style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{entry.book.name}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{entry.book.author}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{entry.book.dateAdded}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "11.5px 16px 11.5px 16px" }}>
+                    <Button
+                      startIcon={<PlayArrowIcon />}
+                      onClick={() => handlePlay(entry.book.url)}
+                    >
+                      Play
+                    </Button>
+                    <Button
+                      startIcon={<DeleteIcon />}
+                      color="secondary"
+                      onClick={() => handleDelete(entry.id)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </Box>
 
       <Table style={{ position: 'fixed', bottom: 0, left: 0, right: 0, backgroundColor: '#f6f6f6', zIndex: 10 }}>

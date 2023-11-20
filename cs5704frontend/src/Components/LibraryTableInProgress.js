@@ -5,6 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import { v4 as uuidv4 } from 'uuid';
+import emptyImage from '../assets/images/empty_box.png';
 
 const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, ref) => {
 
@@ -32,12 +33,12 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
 
   const handleAdd = (bookData) => {
     setData(prevData => {
-      
+
       const exists = prevData.some(entry => entry.book.id === bookData.id);
-  
+
       if (!exists) {
         return [...prevData, { id: uuidv4(), book: bookData }];
-      } 
+      }
       else {
         return prevData;
       }
@@ -79,7 +80,7 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
               status: item.status
             };
 
-            if(dataItem.status !== "success"){
+            if (dataItem.status !== "success") {
               handleAdd(dataItem);
             }
           }
@@ -116,32 +117,41 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
         </TableHead>
       </Table>
       <Box style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-        <Table style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-          <TableBody style={{ width: '100%' }}>
-            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-              <TableRow key={row.id} style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-                <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.name}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.author}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.dateAdded}</TableCell>
-                <TableCell style={{ flex: 1, textAlign: "center", padding: "11.5px 16px 11.5px 16px" }}>
-                  <Button
-                    variant="contained"
-                    disableElevation
-                    disabled
-                    style={{
-                      width: '12vw',
-                      backgroundColor: row.book.status === 'running' ? '#63C40A' :
-                        row.book.status === 'waiting' ? 'orange' : '#FA5858',
-                      color: 'black'
-                    }}
-                  >
-                    {row.book.status.charAt(0).toUpperCase() + row.book.status.slice(1)}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {data.length === 0 ? (
+          <>
+            <div style={{ textAlign: 'center', marginTop: '10vh' }}>
+              <img src={emptyImage} alt="No Data" style={{ maxWidth: '100%', height: 'auto', marginTop: '1vh', opacity: '0.7' }} />
+              <div style={{ marginTop: '2vh', fontWeight: 'bold', fontSize: '16px', opacity: '0.7'}}>It's quieter than a library in here. Let's get the ball rolling!</div>
+            </div>
+          </>
+        ) : (
+          <Table style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+            <TableBody style={{ width: '100%' }}>
+              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
+                <TableRow key={row.id} style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.name}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.author}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.dateAdded}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "11.5px 16px 11.5px 16px" }}>
+                    <Button
+                      variant="contained"
+                      disableElevation
+                      disabled
+                      style={{
+                        width: '12vw',
+                        backgroundColor: row.book.status === 'running' ? '#63C40A' :
+                          row.book.status === 'waiting' ? 'orange' : '#FA5858',
+                        color: 'black'
+                      }}
+                    >
+                      {row.book.status.charAt(0).toUpperCase() + row.book.status.slice(1)}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </Box>
 
       <Table style={{ position: 'fixed', bottom: 0, left: 0, right: 0, backgroundColor: '#f6f6f6', zIndex: 10 }}>
