@@ -12,6 +12,7 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [fetched, setFetched] = useState(false);
 
   const handleDelete = (id) => {
     const updatedData = data.filter(row => row.id !== id);
@@ -84,17 +85,20 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
               handleAdd(dataItem);
             }
           }
-
+          setFetched(true);
         }
         else {
           console.error('Something went wrong:', responseData);
+          setFetched(true);
         }
       }
       else {
         throw new Error(`Bad response from server: ${response.status}`);
+        setFetched(true);
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
+      setFetched(true);
     }
   }
 
@@ -117,7 +121,7 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
         </TableHead>
       </Table>
       <Box style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-        {data.length === 0 ? (
+        {data.length === 0 && fetched? (
           <>
             <div style={{ textAlign: 'center', marginTop: '10vh' }}>
               <img src={emptyImage} alt="No Data" style={{ maxWidth: '100%', height: 'auto', marginTop: '1vh', opacity: '0.7' }} />

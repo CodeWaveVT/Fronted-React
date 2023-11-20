@@ -17,6 +17,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [idToBeDeleted, setIdTobeDelete] = useState(-1);
+  const [fetched, setFetched] = useState(false);
 
   const handleDelete = (id) => {
     setIdTobeDelete(id);
@@ -116,17 +117,20 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
 
             handleAdd(dataItem);
           }
-
+          setFetched(true);
         }
         else {
           console.error('Something went wrong:', responseData);
+          setFetched(true);
         }
       }
       else {
         throw new Error(`Bad response from server: ${response.status}`);
+        setFetched(true);
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
+      setFetched(true);
     }
   }
 
@@ -179,7 +183,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
         </TableHead>
       </Table>
       <Box style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-        {data.length === 0 ? (
+        {data.length === 0 && fetched? (
           <>
           <div style={{ textAlign: 'center', marginTop: '10vh' }}>
             <img src={emptyImage} alt="No Data" style={{ maxWidth: '100%', height: 'auto', marginTop: '1vh', opacity: '0.7' }} />
