@@ -17,6 +17,7 @@ export default function CreateResetAccount({ title }) {
     const [sendCodeClicked, setSendCodeClicked] = useState(false);
     const [snackBarOpen, setSnackBarOpen] = useState(false);
     const [snackNum, setSnackNum] = useState(1);
+    const [snackNotification, setsnackNotification] = useState("confirmation code sent!");
 
     const initialValues = {
         email: "",
@@ -85,6 +86,10 @@ export default function CreateResetAccount({ title }) {
             }
         });
 
+        console.log('Submitted request!');
+        setSnackNum(8);
+        setSnackBarOpen(true);
+
         try {
             const response = await fetch(`http://localhost:8080/api/user/code?email=${encodeURIComponent(email)}`, {
                 method: 'POST',
@@ -122,7 +127,7 @@ export default function CreateResetAccount({ title }) {
                         validationSchema={validationSchema}
                         onSubmit={handleSetUpAccount}
                     >
-                        {({ errors, touched, validateForm }) => (
+                        {({ errors, touched, validateForm, values }) => (
                             <Form>
                                 <p style={{
                                     textAlign: "center",
@@ -188,7 +193,7 @@ export default function CreateResetAccount({ title }) {
                                 <CardActions>
                                     <Button
                                         size="small"
-                                        onClick={() => handleSendConfirmationCode(validationSchema['email'], validateForm)}
+                                        onClick={() => handleSendConfirmationCode(values.email, validateForm)}
                                         style={{ marginLeft: "8px", marginBottom: "5px" }}
                                     >
                                         Send confirmation code

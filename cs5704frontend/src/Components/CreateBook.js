@@ -17,14 +17,14 @@ import { Formik, Form, Field } from "formik";
 import SnackBar from './SnackBar';
 
 export default function CreateBook({ open, handleClose }) {
-    const [AIModel, setAIModel] = React.useState('OpenAI');
+    const [AIModel, setAIModel] = React.useState('openai');
     const [file, setFile] = useState(null);
     const [snackBarOpen, setSnackBarOpen] = useState(false);
 
     const initialValues = {
         bookName: "",
         authorName: "",
-        AIModel: "OpenAI",
+        AIModel: "openai",
     };
 
     const validationSchema = Yup.object().shape({
@@ -38,15 +38,16 @@ export default function CreateBook({ open, handleClose }) {
         handleClose();
     }
 
-    const submitToBackend = async (bookType, bookName, bookAuthor) => {
+    const submitToBackend = async (bookType, bookName, bookAuthor, modelType) => {
 
         const formData = new FormData();
         formData.append('file', file);
         formData.append('bookType', bookType);
         formData.append('bookName', bookName);
         formData.append('bookAuthor', bookAuthor);
+        formData.append('modelType', modelType);
         try {
-            const response = await fetch('http://localhost:8080/api/task/gen/async', {
+            const response = await fetch('http://localhost:8080/api/task/gen/test/async', {
                 method: 'POST',
                 body: formData,
             });
@@ -92,7 +93,7 @@ export default function CreateBook({ open, handleClose }) {
                     break;
             }
             if (bookType !== ""){
-                submitToBackend(bookType, values.bookName, values.authorName);
+                submitToBackend(bookType, values.bookName, values.authorName, values.AIModel);
                 handleClose();
                 setFile(null);
                 setSnackBarOpen(true);
@@ -166,7 +167,7 @@ export default function CreateBook({ open, handleClose }) {
                                             }}
                                         >
                                             <MenuItem value={"Xunfei"}>Xunfei</MenuItem>
-                                            <MenuItem value={"OpenAI"}>OpenAI</MenuItem>
+                                            <MenuItem value={"openai"}>OpenAI</MenuItem>
                                         </Field>
                                     </FormControl>
                                 </Box>
