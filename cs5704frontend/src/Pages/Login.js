@@ -69,7 +69,7 @@ export default function Login({ setAccountTitle, setLoggedOut }) {
                     console.log('Request was successful:', responseData);
                     setSnackNum(2);
                     setSnackBarOpen(true);
-                    await sleep(500);
+                    await sleep(400);
                     setLoggedOut(false)
                     navigate('/lib');
                 }

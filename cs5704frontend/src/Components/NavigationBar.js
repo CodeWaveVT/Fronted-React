@@ -8,9 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import SnackBar from './SnackBar';
 
-export default function NavigationBar({setLoggedOut}) {
+export default function NavigationBar({setLoggedOut, setLoggedOutSnackBarOpen}) {
   const navigate = useNavigate();
-  const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   function sleep(milliseconds) {
@@ -43,10 +42,9 @@ export default function NavigationBar({setLoggedOut}) {
         if (codePrefix === 200) {
           // 如果代码以 200 开头，处理成功的情况
           console.log('Logout was successful:', responseData);
-          setSnackBarOpen(true);
-          await sleep(400);
           navigate('/');
           setLoggedOut(true);
+          setLoggedOutSnackBarOpen(true);
         }
         else {
           console.error('Something went wrong:', responseData);
@@ -62,11 +60,6 @@ export default function NavigationBar({setLoggedOut}) {
 
   return (
     <>
-      <SnackBar
-        barOpen={snackBarOpen}
-        setBarOpen={setSnackBarOpen}
-        alertType={3}
-      />
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>

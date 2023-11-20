@@ -3,26 +3,39 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import Login from './Pages/Login';
 import Library from './Pages/Library';
 import CreateResetAccount from './Pages/CreateResetAccount';
-import { useState, useEffect  } from 'react';
+import { useState, useEffect } from 'react';
+import SnackBar from './Components/SnackBar';
 
 function App() {
   const [accountTitle, setAccountTitle] = useState("Create Account");
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [loggedOutSnackBarOpen, setLoggedOutSnackBarOpen] = useState(false);
   const [loggedOut, setLoggedOut] = useState(() => {
     const isLoggedOut = localStorage.getItem('loggedOut');
-    return isLoggedOut !== null ? JSON.parse(isLoggedOut) : true;
+    return isLoggedOut !== null ? JSON.parse(isLoggedOut) : false;
   });
+
 
   useEffect(() => {
     localStorage.setItem('loggedOut', loggedOut);
-  }, [loggedOut]);
+    if (loggedOut && loggedOutSnackBarOpen) {
+      setSnackBarOpen(true);
+    }
+  }, [loggedOut, loggedOutSnackBarOpen]);
 
   return (
     <div className='full-screen'>
+      <SnackBar
+        barOpen={snackBarOpen}
+        setBarOpen={setSnackBarOpen}
+        alertType={3}
+        hideDuration={3000}
+      />
       <div className='App'>
         <Router>
           <Routes>
-            <Route path="/" element={<Login setAccountTitle={setAccountTitle} setLoggedOut={setLoggedOut}/>} />
-            <Route path="/lib" element={loggedOut ? <Navigate to="/" /> : <Library setLoggedOut={setLoggedOut} />} />
+            <Route path="/" element={<Login setAccountTitle={setAccountTitle} setLoggedOut={setLoggedOut} />} />
+            <Route path="/lib" element={loggedOut ? <Navigate to="/" /> : <Library setLoggedOut={setLoggedOut} setLoggedOutSnackBarOpen={setLoggedOutSnackBarOpen} />} />
             <Route path="/setUpAccount" element={<CreateResetAccount title={accountTitle} />} />
           </Routes>
         </Router>

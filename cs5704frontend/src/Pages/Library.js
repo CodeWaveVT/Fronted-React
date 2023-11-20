@@ -4,7 +4,7 @@ import LibraryTableInProgress from '../Components/LibraryTableInProgress';
 import NavigationBar from '../Components/NavigationBar';
 import '../CSS/general.css';
 
-const Library = ({setLoggedOut}) => {
+const Library = ({setLoggedOut, setLoggedOutSnackBarOpen}) => {
     const [showCompleted, setShowCompleted] = useState(() => {
         const saved = localStorage.getItem('showCompleted');
         return saved !== null ? JSON.parse(saved) : true;
@@ -38,7 +38,7 @@ const Library = ({setLoggedOut}) => {
     return (
         <div className='full-screen'>
             <div className='sticky-bar'>
-                <NavigationBar setLoggedOut = {setLoggedOut}/>
+                <NavigationBar setLoggedOut = {setLoggedOut} setLoggedOutSnackBarOpen = {setLoggedOutSnackBarOpen}/>
             </div>
             <div className='libraryTable'>
                 {showCompleted ?
