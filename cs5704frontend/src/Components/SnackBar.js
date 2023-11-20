@@ -29,7 +29,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'error';
       break;
     case 2:
-      alert = "LOGGED IN!";
+      alert = "LOGGING IN!";
       color = 'info';
       break;
     case 3:
@@ -37,11 +37,11 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'info';
       break;
     case 4:
-      alert = "Invalid Email Adress!";
+      alert = "INVALID EMAIL ADDRESS!";
       color = 'error';
       break;
     case 5:
-      alert = "Code Sent!";
+      alert = "Code sent!";
       color = 'success';
       break;
     case 6:
@@ -74,7 +74,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
         open={barOpen}
         autoHideDuration={hideDuration}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} // Corrected typo here
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} 
         style={{ marginBottom: '1.5vh' }}
       >
         <Alert onClose={handleClose} severity={color} sx={{ width: '100%' }}>
