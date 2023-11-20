@@ -170,7 +170,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
         barOpen={snackBarOpen}
         setBarOpen={setSnackBarOpen}
         alertType={9}
-        hideDuration={4000}
+        hideDuration={5000}
       />
       <ConfirmDelete
         open={openConfirmDelete}
