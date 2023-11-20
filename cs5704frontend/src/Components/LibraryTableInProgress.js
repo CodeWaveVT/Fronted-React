@@ -137,10 +137,10 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
             <TableBody style={{ width: '100%' }}>
               {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
                 <TableRow key={row.id} style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.name}</TableCell>
-                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.author}</TableCell>
-                  <TableCell style={{ flex: 1, textAlign: "center", padding: "20px 16px 20px 16px" }}>{row.book.dateAdded}</TableCell>
-                  <TableCell style={{ flex: 2, textAlign: "center", padding: "20px 16px 20px 16px" }}>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "30px 16px 30px 16px" }}>{row.book.name}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "30px 16px 30px 16px" }}>{row.book.author}</TableCell>
+                  <TableCell style={{ flex: 1, textAlign: "center", padding: "30px 16px 30px 16px" }}>{row.book.dateAdded}</TableCell>
+                  <TableCell style={{ flex: 2, textAlign: "center", padding: "21.5px 16px 21.5px 16px" }}>
                     <Button
                       variant="contained"
                       disableElevation
