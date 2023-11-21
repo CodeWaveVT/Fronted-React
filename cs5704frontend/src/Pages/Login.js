@@ -90,15 +90,15 @@ export default function Login({ setAccountTitle, setLoggedOut }) {
 
 
     return (
-        <>
+        <div className='full-screen' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <SnackBar
                 barOpen={snackBarOpen}
                 setBarOpen={setSnackBarOpen}
                 alertType={snackNum}
                 hideDuration={2500}
             />
-            <Card elevation={3} className='Card' sx={{ width: "450px", height: "380px" }}>
-                <div style={{ position: "absolute", bottom: "0", right: "0", left: "0" }}>
+            <Card elevation={3} className='Card' sx={{ width: "460px", height: "380px", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <div>
                     <Formik
                         initialValues={initialValues}
                         validationSchema={validationSchema}
@@ -148,7 +148,7 @@ export default function Login({ setAccountTitle, setLoggedOut }) {
                                     <Button onClick={handleCreateAccount} size="small" style={{ marginLeft: "80px", marginBottom: "5px" }}>
                                         Create Account
                                     </Button>
-                                    <Button type="submit" size="small" style={{ marginLeft: "5px", marginBottom: "5px" }}>
+                                    <Button type="submit" size="small" style={{ marginLeft: "5px", marginBottom: "5px", marginRight: "5px" }}>
                                         Login
                                     </Button>
                                 </CardActions>
@@ -157,7 +157,7 @@ export default function Login({ setAccountTitle, setLoggedOut }) {
                     </Formik>
                 </div>
             </Card>
-        </>
+        </div>
     );
 }
 

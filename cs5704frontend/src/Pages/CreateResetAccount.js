@@ -61,11 +61,27 @@ export default function CreateResetAccount({ title }) {
             });
 
             if (response.ok) {
-                console.log('Account set up successfully');
-                setSnackNum(6);
-                setSnackBarOpen(true);
-                await sleep(800);
-                navigate('/');
+                const responseData = await response.json();
+                console.log(responseData);
+                if (responseData.message === "userAccount is already exist") {
+                    console.log('Account already exists!');
+                    setSnackNum(10);
+                    setSnackBarOpen(true);
+                    return;
+                }
+                else if (responseData.message === "validateCode is not equal cacheCode") {
+                    console.log('Confirmation Code Incorrect!');
+                    setSnackNum(11);
+                    setSnackBarOpen(true);
+                    return;
+                }
+                else if (responseData.message === "register success") {
+                    console.log('Account set up successfully');
+                    setSnackNum(6);
+                    setSnackBarOpen(true);
+                    await sleep(800);
+                    navigate('/');
+                }
             } else {
                 const errorData = await response.json();
                 throw new Error(`Server responded with ${response.status}: ${errorData.message}`);
@@ -86,6 +102,10 @@ export default function CreateResetAccount({ title }) {
             }
         });
 
+        if(!email){
+            return;
+        }
+        
         console.log('Submitted request!');
         setSnackNum(8);
         setSnackBarOpen(true);
@@ -113,15 +133,18 @@ export default function CreateResetAccount({ title }) {
 
 
     return (
-        <>
-            <SnackBar
-                barOpen={snackBarOpen}
-                setBarOpen={setSnackBarOpen}
-                alertType={snackNum}
-                hideDuration={2500}
-            />
-            <Card elevation={3} className='Card' sx={{ width: "450px", height: "550px" }}>
-                <div style={{ position: "absolute", bottom: "0", right: "0", left: "0" }}>
+        <div className='full-screen' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div >
+                <SnackBar
+                    barOpen={snackBarOpen}
+                    setBarOpen={setSnackBarOpen}
+                    alertType={snackNum}
+                    hideDuration={4000}
+                />
+            </div>
+
+            <Card elevation={3} className='Card' sx={{ width: "460px", height: "550px", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <div>
                     <Formik
                         initialValues={initialValues}
                         validationSchema={validationSchema}
@@ -203,7 +226,7 @@ export default function CreateResetAccount({ title }) {
                                             <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "37px", marginBottom: "5px" }}>
                                                 back
                                             </Button>
-                                            <Button size="small" type="submit" style={{ marginLeft: "5px", marginBottom: "5px" }}>
+                                            <Button size="small" type="submit" style={{ marginLeft: "5px", marginBottom: "5px", marginRight: "5px" }}>
                                                 Create Account
                                             </Button>
                                         </>
@@ -212,7 +235,7 @@ export default function CreateResetAccount({ title }) {
                                             <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "100px", marginBottom: "5px" }}>
                                                 back
                                             </Button>
-                                            <Button size="small" type="submit" style={{ marginLeft: "5px", marginBottom: "5px" }}>
+                                            <Button size="small" type="submit" style={{ marginLeft: "5px", marginBottom: "5px", marginRight: "5px" }}>
                                                 Reset
                                             </Button>
                                         </>
@@ -223,7 +246,7 @@ export default function CreateResetAccount({ title }) {
                     </Formik>
                 </div>
             </Card>
-        </>
+        </div>
     );
 }
 

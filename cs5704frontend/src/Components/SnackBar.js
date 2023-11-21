@@ -45,7 +45,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'success';
       break;
     case 6:
-      alert = "Account set up successfully!";
+      alert = "Successfully registered!";
       color = 'success';
       break;
     case 7:
@@ -60,6 +60,14 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       alert = "BOOK DELETED!";
       color = 'error';
       break;
+    case 10:
+      alert = "ACCOUNT EXISTS!";
+      color = 'error';
+      break;
+    case 11:
+      alert = "CONFIRMATION CODE INCORRECT!";
+      color = 'error';
+      break;
     default:
       break;
   }
@@ -69,12 +77,12 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
   }
 
   return (
-    <Stack spacing={2} sx={{ width: '100%' }}>
+    <Stack spacing={2} sx={{ width: '100%', position: 'fixed', zIndex:10 }}>
       <Snackbar
         open={barOpen}
         autoHideDuration={hideDuration}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} 
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         style={{ marginBottom: '1.5vh' }}
       >
         <Alert onClose={handleClose} severity={color} sx={{ width: '100%' }}>

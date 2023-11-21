@@ -12,6 +12,16 @@
     background-color: #f6f6f6;
 }
 
+.snack-bar {
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    z-index: 10;
+    background-color: #f6f6f6;
+}
+
 .sticky-bar {
     position: fixed;
     top: 0;
