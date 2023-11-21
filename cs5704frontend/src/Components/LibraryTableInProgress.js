@@ -129,7 +129,7 @@ const LibraryTableInProgress = forwardRef(({ showCompleted, setShowCompleted }, 
           <>
             <div style={{ textAlign: 'center', marginTop: '10vh' }}>
               <img src={emptyImage} alt="No Data" className="responsive-image"/>
-              <div style={{ marginTop: '2vh', fontWeight: 'bold', fontSize: '16px', opacity: '0.7'}}>It's quieter than a library in here. Let's get the ball rolling!</div>
+              <div style={{ marginTop: '2vh', fontWeight: 'bold', fontSize: '16px', opacity: '0.7'}}>It's quieter than a library in here. Let's get the ball rolling! Just hit 'CREATE' up top right!</div>
             </div>
           </>
         ) : (
