@@ -161,7 +161,7 @@ export default function CreateBook({ open, handleClose }) {
                 barOpen={snackBarOpen}
                 setBarOpen={setSnackBarOpen}
                 alertType={0}
-                hideDuration={7000}
+                hideDuration={8000}
             />
             <Dialog open={open}>
                 <DialogTitle >Create Book</DialogTitle>

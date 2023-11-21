@@ -17,11 +17,11 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
     setBarOpen(false);
   };
 
-  let alert = "Ebook file successfully uploaded! Please check the progress in the 'IN PROCESS' table";
+  let alert = "";
   let color = 'success';
   switch (alertType) {
     case 0:
-      alert = "Ebook file successfully uploaded! Please check the progress in the 'IN PROCESS' table";
+      alert = "Ebook's on the move! Head over to 'IN PROCESS' table via the bottom-right menu for the action.";
       color = 'success';
       break;
     case 1:
@@ -41,7 +41,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'error';
       break;
     case 5:
-      alert = "Code sent!";
+      alert = "Code dispatched to your inbox!";
       color = 'success';
       break;
     case 6:
@@ -53,7 +53,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'error';
       break;
     case 8:
-      alert = "Code requested!";
+      alert = "Code request in flight!";
       color = 'info';
       break;
     case 9:
@@ -77,7 +77,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
   }
 
   return (
-    <Stack spacing={2} sx={{ width: '100%', position: 'fixed', zIndex: 10 }}>
+    <Stack spacing={2} sx={{ width: '100%', position: 'fixed', zIndex: 999 }}>
       <Snackbar
         open={barOpen}
         autoHideDuration={hideDuration}
