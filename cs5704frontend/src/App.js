@@ -36,13 +36,13 @@ function App() {
         barOpen={snackBarOpen}
         setBarOpen={setSnackBarOpen}
         alertType={3}
-        hideDuration={3000}
+        hideDuration={4000}
       />
         <SnackBar
         barOpen={loggedInSnack}
         setBarOpen={setLoggedIn}
         alertType={2}
-        hideDuration={3000}
+        hideDuration={4000}
       />
       <div className='App'>
         <Router>
