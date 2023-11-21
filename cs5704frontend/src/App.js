@@ -10,6 +10,7 @@ function App() {
   const [accountTitle, setAccountTitle] = useState("Create Account");
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [loggedOutSnackBarOpen, setLoggedOutSnackBarOpen] = useState(false);
+  const [loggedInSnack, setLoggedIn] = useState(false);
   const [loggedOut, setLoggedOut] = useState(() => {
     const isLoggedOut = localStorage.getItem('loggedOut');
     return isLoggedOut !== null ? JSON.parse(isLoggedOut) : false;
@@ -23,18 +24,30 @@ function App() {
     }
   }, [loggedOut, loggedOutSnackBarOpen]);
 
+  useEffect(() => {
+    if (loggedInSnack) {
+      setLoggedIn(true);
+    }
+  }, [loggedInSnack]);
+
   return (
     <div className='full-screen'>
       <SnackBar
         barOpen={snackBarOpen}
         setBarOpen={setSnackBarOpen}
         alertType={3}
-        hideDuration={3000}
+        hideDuration={4000}
+      />
+        <SnackBar
+        barOpen={loggedInSnack}
+        setBarOpen={setLoggedIn}
+        alertType={2}
+        hideDuration={4000}
       />
       <div className='App'>
         <Router>
           <Routes>
-            <Route path="/" element={<Login setAccountTitle={setAccountTitle} setLoggedOut={setLoggedOut} />} />
+            <Route path="/" element={<Login setAccountTitle={setAccountTitle} setLoggedOut={setLoggedOut} setLoggedIn = {setLoggedIn} />} />
             <Route path="/lib" element={loggedOut ? <Navigate to="/" /> : <Library setLoggedOut={setLoggedOut} setLoggedOutSnackBarOpen={setLoggedOutSnackBarOpen} />} />
             <Route path="/setUpAccount" element={<CreateResetAccount title={accountTitle} />} />
           </Routes>

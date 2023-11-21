@@ -61,7 +61,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'error';
       break;
     case 10:
-      alert = "ACCOUNT EXISTS!";
+      alert = "ACCOUNT EXISTS! PLEASE LOG IN!";
       color = 'error';
       break;
     case 11:
@@ -77,7 +77,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
   }
 
   return (
-    <Stack spacing={2} sx={{ width: '100%', position: 'fixed', zIndex:10 }}>
+    <Stack spacing={2} sx={{ width: '100%', position: 'fixed', zIndex: 10 }}>
       <Snackbar
         open={barOpen}
         autoHideDuration={hideDuration}

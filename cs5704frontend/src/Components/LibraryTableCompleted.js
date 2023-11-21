@@ -1,6 +1,5 @@
 import React, { useState, useImperativeHandle, forwardRef, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableRow, Button, TableFooter, TablePagination, Box } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -133,7 +132,6 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
       }
       else {
         throw new Error(`Bad response from server: ${response.status}`);
-        setFetched(true);
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);

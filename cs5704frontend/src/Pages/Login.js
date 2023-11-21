@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { Formik, Form, Field } from "formik";
 import SnackBar from '../Components/SnackBar';
 
-export default function Login({ setAccountTitle, setLoggedOut }) {
+export default function Login({ setAccountTitle, setLoggedOut, setLoggedIn }) {
     const navigate = useNavigate();
     const [snackBarOpen, setSnackBarOpen] = useState(false);
     const [snackNum, setSnackNum] = useState(1);
@@ -40,10 +40,6 @@ export default function Login({ setAccountTitle, setLoggedOut }) {
         navigate('/setUpAccount');
     }
 
-    function sleep(milliseconds) {
-        return new Promise(resolve => setTimeout(resolve, milliseconds));
-    }
-
     const handleSubmit = async (values) => {
         const credentials = {
             userAccount: values.email,
@@ -67,9 +63,7 @@ export default function Login({ setAccountTitle, setLoggedOut }) {
                 console.log(codePrefix)
                 if (codePrefix === 200) {
                     console.log('Request was successful:', responseData);
-                    setSnackNum(2);
-                    setSnackBarOpen(true);
-                    await sleep(400);
+                    setLoggedIn(true)
                     setLoggedOut(false)
                     navigate('/lib');
                 }

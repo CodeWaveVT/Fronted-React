@@ -17,7 +17,6 @@ export default function CreateResetAccount({ title }) {
     const [sendCodeClicked, setSendCodeClicked] = useState(false);
     const [snackBarOpen, setSnackBarOpen] = useState(false);
     const [snackNum, setSnackNum] = useState(1);
-    const [snackNotification, setsnackNotification] = useState("confirmation code sent!");
 
     const initialValues = {
         email: "",
