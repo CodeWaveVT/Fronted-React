@@ -96,16 +96,12 @@ export default function CreateResetAccount({ title }) {
 
     const handleSendConfirmationCode = async (email, validateForm) => {
         setSendCodeClicked(true);
-        validateForm().then((errors) => {
-            if (errors.email) {
-                return;
-            }
-        });
-
-        if(!email){
-            return;
+        const errors = await validateForm();
+        if (errors.email) {
+            console.log("email error!");
+            return; 
         }
-        
+
         console.log('Submitted request!');
         setSnackNum(8);
         setSnackBarOpen(true);
