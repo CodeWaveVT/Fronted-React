@@ -25,19 +25,19 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'success';
       break;
     case 1:
-      alert = "INVALID USER!";
+      alert = "Oops! User invalid!";
       color = 'error';
       break;
     case 2:
-      alert = "LOGGING IN!";
+      alert = "Welcome to the AI Audiobook Oasis, where every story sparkles!";
       color = 'info';
       break;
     case 3:
-      alert = "LOGGED OUT!";
+      alert = "LOGGED OUT! Catch you in the next chapter!";
       color = 'info';
       break;
     case 4:
-      alert = "INVALID EMAIL ADDRESS!";
+      alert = "Whoops, that email seems imaginary. Double-check?";
       color = 'error';
       break;
     case 5:
@@ -45,11 +45,11 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'success';
       break;
     case 6:
-      alert = "Successfully registered!";
+      alert = "Hooray! You're all set and registered!";
       color = 'success';
       break;
     case 7:
-      alert = "FAILED TO SET UP ACCOUNT!";
+      alert = "Uh-oh, account setup hit a snag!";
       color = 'error';
       break;
     case 8:
@@ -57,15 +57,15 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'info';
       break;
     case 9:
-      alert = "BOOK DELETED!";
+      alert = "Book vanished into thin air!";
       color = 'error';
       break;
     case 10:
-      alert = "ACCOUNT EXISTS! PLEASE LOG IN!";
+      alert = "Account already here! Please log in.";
       color = 'error';
       break;
     case 11:
-      alert = "CONFIRMATION CODE INCORRECT!";
+      alert = "Oops, wrong confirmation code. Try again?";
       color = 'error';
       break;
     default:
