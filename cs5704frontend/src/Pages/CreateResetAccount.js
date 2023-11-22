@@ -56,7 +56,14 @@ export default function CreateResetAccount({ title }) {
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData);
-                if (responseData.message === "userAccount is already exist") {
+                if(responseData.data === "register success"){
+                    console.log('Account set up successfully');
+                    setSnackNum(6);
+                    setSnackBarOpen(true);
+                    await sleep(1000);
+                    navigate('/');
+                }
+                else if (responseData.message === "userAccount is already exist") {
                     console.log('Account already exists!');
                     setSnackNum(10);
                     setSnackBarOpen(true);
@@ -67,13 +74,6 @@ export default function CreateResetAccount({ title }) {
                     setSnackNum(11);
                     setSnackBarOpen(true);
                     return;
-                }
-                else if (responseData.message === "register success") {
-                    console.log('Account set up successfully');
-                    setSnackNum(6);
-                    setSnackBarOpen(true);
-                    await sleep(1000);
-                    navigate('/');
                 }
                 else{
                     console.error('Failed to set up account!');
