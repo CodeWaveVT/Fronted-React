@@ -61,7 +61,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'error';
       break;
     case 10:
-      alert = "Account already here! Please log in.";
+      alert = "Account already exists! Please log in.";
       color = 'error';
       break;
     case 11:
