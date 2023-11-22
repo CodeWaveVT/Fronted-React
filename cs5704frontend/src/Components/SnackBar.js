@@ -49,7 +49,7 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       color = 'success';
       break;
     case 7:
-      alert = "Uh-oh, account setup hit a snag!";
+      alert = "Uh-oh, account setup error!";
       color = 'error';
       break;
     case 8:
@@ -66,6 +66,14 @@ export default function SnackBar({ barOpen, setBarOpen, alertType, hideDuration 
       break;
     case 11:
       alert = "Oops, wrong confirmation code. Try again?";
+      color = 'error';
+      break;
+    case 12:
+      alert = "Password reset: You're back in action!";
+      color = 'success';
+      break;
+    case 13:
+      alert = "User account does not exist! Time to sign up?";
       color = 'error';
       break;
     default:

@@ -41,16 +41,10 @@ export default function CreateResetAccount({ title }) {
         confirmation: Yup.string().required("You must input the confirmation code"),
     });
 
-    const handleSetUpAccount = async (values) => {
-        const userData = {
-            userAccount: values.email, // 用户输入的邮箱作为用户名
-            userPassword: values.password, // 用户密码
-            checkPassword: values.passwordConfirmed, // 确认密码
-            validateCode: values.confirmation, // 用户输入的验证码
-        };
 
+    const handleRegister = async (userData) => {
         try {
-            const response = await fetch('http://localhost:8080/api/user/register', {
+            const response = await fetch('/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,8 +72,14 @@ export default function CreateResetAccount({ title }) {
                     console.log('Account set up successfully');
                     setSnackNum(6);
                     setSnackBarOpen(true);
-                    await sleep(800);
+                    await sleep(1000);
                     navigate('/');
+                }
+                else{
+                    console.error('Failed to set up account!');
+                    setSnackNum(7);
+                    setSnackBarOpen(true);
+                    return;
                 }
             } else {
                 const errorData = await response.json();
@@ -90,6 +90,74 @@ export default function CreateResetAccount({ title }) {
             setSnackNum(7);
             setSnackBarOpen(true);
         }
+    }
+
+    const handleResetPassword = async (userData) => {
+        try {
+            const response = await fetch('/api/user/resetPassword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(userData),
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log(responseData);
+                if (responseData.data === "reset password success") {
+                    console.log('reset password success!');
+                    setSnackNum(12);
+                    setSnackBarOpen(true);
+                    await sleep(3000);
+                    navigate('/');
+                    return;
+                }
+                else if (responseData.message === "validateCode is not equal cacheCode") {
+                    console.log('Confirmation Code Incorrect!');
+                    setSnackNum(11);
+                    setSnackBarOpen(true);
+                    return;
+                }
+                else if(responseData.message === "userAccount not exist,please register"){
+                    console.log('userAccount not exist,please register!');
+                    setSnackNum(13);
+                    setSnackBarOpen(true);
+                    return;
+                }
+                else{
+                    console.error('Failed to set up account!');
+                    setSnackNum(7);
+                    setSnackBarOpen(true);
+                    return;
+                }
+            } else {
+                const errorData = await response.json();
+                throw new Error(`Server responded with ${response.status}: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error('Failed to set up account:', error);
+            setSnackNum(7);
+            setSnackBarOpen(true);
+        }
+    }
+
+    const handleSetUpAccount = async (values) => {
+        const userData = {
+            userAccount: values.email, // 用户输入的邮箱作为用户名
+            userPassword: values.password, // 用户密码
+            checkPassword: values.passwordConfirmed, // 确认密码
+            validateCode: values.confirmation, // 用户输入的验证码
+        };
+
+        if(title === "Create Account"){
+            handleRegister(userData);
+        }
+        else{
+            handleResetPassword(userData);
+        }
+        
     };
 
 
