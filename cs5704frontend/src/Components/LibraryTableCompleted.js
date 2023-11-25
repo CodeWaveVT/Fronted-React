@@ -90,7 +90,7 @@ const LibraryTableCompleted = forwardRef(({ showCompleted, setShowCompleted }, r
   const getCompletedBooks = async () => {
     console.log("getting completed book");
     try {
-      const response = await fetch('/api/task/list/completed', {
+      const response = await fetch('/api/task/list/test/completed', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the Content-Type header
