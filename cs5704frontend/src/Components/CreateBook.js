@@ -53,7 +53,6 @@ export default function CreateBook({ open, handleClose }) {
             });
 
             const responseData = await response.json();
-
             if (response.ok) {
                 // 检查 HTTP 状态代码是否指示成功（2xx）,因为后台的状态码不是用的标准版，而是多了两位，如20011，40001，所以需要取前三位
                 const codePrefix = Math.floor(responseData.code / 100); // 计算代码的前三位
@@ -112,6 +111,26 @@ export default function CreateBook({ open, handleClose }) {
         }
     }
 
+    const getDisplayedModel = (model) => {
+        if(model === "yash_Scoop"){
+            return "Snoop Dogg";
+        }
+        else if(model === "yash_Doofenshmirtz"){
+            return "Dr. Doofenshmirtz";
+        }
+        else if(model === "yash_Vader"){
+            return "Darth Vader";
+        }
+        else if(model === "yash_Gollum"){
+            return "Gollum";
+        }
+        else if(model === "yash_Cowboy"){
+            return "Cowboy";
+        }
+        return model;
+    }
+
+
     useEffect(() => {
         if (open) {
             getAIModels();
@@ -155,6 +174,8 @@ export default function CreateBook({ open, handleClose }) {
 
         setFile(null);
     };
+
+
 
     return (
         <div>
@@ -215,7 +236,7 @@ export default function CreateBook({ open, handleClose }) {
                                             }}
                                         >
                                             {aiModels.map(model => (
-                                                <MenuItem key={model} value={model}>{model}</MenuItem>
+                                                <MenuItem key={model} value={model}>{getDisplayedModel(model)}</MenuItem>
                                             ))}
                                         </Field>
                                     </FormControl>
