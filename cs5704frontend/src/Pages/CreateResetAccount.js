@@ -60,7 +60,7 @@ export default function CreateResetAccount({ title }) {
                     console.log('Account set up successfully');
                     setSnackNum(6);
                     setSnackBarOpen(true);
-                    await sleep(1000);
+                    await sleep(3000);
                     navigate('/');
                 }
                 else if (responseData.message === "userAccount is already exist") {
