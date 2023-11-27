@@ -64,6 +64,7 @@ export default function CreateBook({ open, handleClose }) {
                 }
                 else {
                     console.error('Something went wrong:', responseData);
+                    alert('model meets its limits, please wait ');
                 }
             }
             else {
