@@ -91,7 +91,7 @@ export default function Login({ setAccountTitle, setLoggedOut, setLoggedIn }) {
                 alertType={snackNum}
                 hideDuration={2500}
             />
-            <Card elevation={3} className='Card' sx={{ width: "460px", height: "380px", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <Card elevation={3} className='Card'>
                 <div>
                     <Formik
                         initialValues={initialValues}
@@ -136,13 +136,13 @@ export default function Login({ setAccountTitle, setLoggedOut, setLoggedIn }) {
                                 </CardContent>
 
                                 <CardActions>
-                                    <Button onClick={handleResetAccount} size="small" style={{ marginLeft: "8px", marginBottom: "5px" }}>
+                                    <Button onClick={handleResetAccount} size="small" style={{ marginLeft: "0.2vw", marginBottom: "5px" }}>
                                         Forgot Password?
                                     </Button>
-                                    <Button onClick={handleCreateAccount} size="small" style={{ marginLeft: "80px", marginBottom: "5px" }}>
+                                    <Button onClick={handleCreateAccount} size="small" style={{ marginLeft: "3vw", marginBottom: "5px" }}>
                                         Create Account
                                     </Button>
-                                    <Button type="submit" size="small" style={{ marginLeft: "5px", marginBottom: "5px", marginRight: "5px" }}>
+                                    <Button type="submit" size="small" style={{ marginLeft: "1vw", marginBottom: "5px", marginRight: "0" }}>
                                         Login
                                     </Button>
                                 </CardActions>

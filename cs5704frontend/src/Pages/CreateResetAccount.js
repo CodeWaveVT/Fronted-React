@@ -206,7 +206,7 @@ export default function CreateResetAccount({ title }) {
                 />
             </div>
 
-            <Card elevation={3} className='Card' sx={{ width: "460px", height: "550px", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <Card elevation={3} className='Card' sx={{ height: "580px"}}>
                 <div>
                     <Formik
                         initialValues={initialValues}
@@ -217,7 +217,7 @@ export default function CreateResetAccount({ title }) {
                             <Form>
                                 <p style={{
                                     textAlign: "center",
-                                    marginBottom: "20px",
+                                    marginBottom: "25px",
                                     fontSize: "50px",
                                     fontWeight: "bold",
                                     fontFamily: "Roboto",
@@ -280,25 +280,25 @@ export default function CreateResetAccount({ title }) {
                                     <Button
                                         size="small"
                                         onClick={() => handleSendConfirmationCode(values.email, validateForm)}
-                                        style={{ marginLeft: "8px", marginBottom: "5px" }}
+                                        style={{ marginLeft: "0.2vw", marginBottom: "5px" }}
                                     >
                                         Send confirmation code
                                     </Button>
                                     {title === "Create Account" ?
                                         <>
-                                            <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "37px", marginBottom: "5px" }}>
+                                            <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "1.2vw", marginBottom: "5px" }}>
                                                 back
                                             </Button>
-                                            <Button size="small" type="submit" style={{ marginLeft: "5px", marginBottom: "5px", marginRight: "5px" }}>
+                                            <Button size="small" type="submit" style={{ marginLeft: "0.5vw", marginBottom: "5px", marginRight: "0" }}>
                                                 Create Account
                                             </Button>
                                         </>
                                         :
                                         <>
-                                            <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "100px", marginBottom: "5px" }}>
+                                            <Button size="small" onClick={() => { navigate('/'); }} style={{ marginLeft: "4.5vw", marginBottom: "5px" }}>
                                                 back
                                             </Button>
-                                            <Button size="small" type="submit" style={{ marginLeft: "5px", marginBottom: "5px", marginRight: "5px" }}>
+                                            <Button size="small" type="submit" style={{ marginLeft: "0.5vw", marginBottom: "5px", marginRight: "0" }}>
                                                 Reset
                                             </Button>
                                         </>
